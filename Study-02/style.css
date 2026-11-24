@@ -1,3 +1,4 @@
+/* 작성일: 2026-11-25 01:57 (수정됨) */
 * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
 body { background-color: #6a5acd; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; transition: background-color 0.3s; padding: 20px; }
 .app-container { background-color: white; width: 100%; max-width: 600px; border-radius: 15px; padding: 30px; box-shadow: 0 10px 20px rgba(0,0,0,0.1); transition: background-color 0.3s, color 0.3s; }
@@ -68,3 +69,85 @@ body.dark-mode li { background-color: #3D3D3D; }
 body.dark-mode input, body.dark-mode select { background-color: #444; color: #E0E0E0; border-color: #555; }
 body.dark-mode .filter-btn:not(.active), body.dark-mode .data-btn:not(.danger) { color: #aaa; border-color: #555; background-color: transparent; }
 body.dark-mode .quote-container { border-color: #555; color: #999; }
+/* ===== Step 1: 호버 효과 ===== */
+li:not(.empty-message):hover { background-color: #f1effc; box-shadow: 0 2px 6px rgba(106, 90, 205, 0.12); }
+#addBtn:hover { background-color: #5848b8; }
+.filter-btn:not(.active):hover { border-color: #6a5acd; color: #6a5acd; }
+.delete-btn { transition: background-color 0.2s, transform 0.2s; }
+.delete-btn:hover { background-color: #ff4c4c; transform: scale(1.1); }
+
+/* ===== Step 4: 남은 개수 배지 / Step 5: 응원 메시지 ===== */
+.title-group { display: flex; align-items: center; gap: 12px; }
+.remaining-badge { background-color: #6a5acd; color: white; font-size: 0.8rem; font-weight: bold; padding: 4px 10px; border-radius: 12px; white-space: nowrap; }
+.cheer-message { text-align: center; font-size: 0.9rem; font-weight: bold; color: #6a5acd; margin: -10px 0 15px; }
+
+/* ===== Step 3: 인라인 편집 (카테고리 변경 포함) ===== */
+.task-content.editing { pointer-events: auto; flex-wrap: wrap; }
+.edit-mode-input { flex: 1 1 160px; padding: 6px 10px; border: 2px solid #6a5acd; border-radius: 6px; font-size: 1rem; outline: none; }
+.edit-category-select { padding: 6px 8px; border: 1px solid #ddd; border-radius: 6px; background: white; cursor: pointer; }
+
+/* ===== 키워드 기반 자동 카테고리 분류 ===== */
+.auto-category-hint { min-height: 1.3em; margin: -22px 0 14px; font-size: 0.85rem; font-weight: bold; color: #888; }
+.auto-category-hint.tag-text-work { color: #4A90E2; }
+.auto-category-hint.tag-text-personal { color: #27AE60; }
+.auto-category-hint.tag-text-study { color: #8E44AD; }
+.auto-category-hint.manual { color: #999; font-weight: normal; }
+@keyframes autoSelected { from { box-shadow: 0 0 0 3px rgba(106, 90, 205, 0.5); } to { box-shadow: 0 0 0 0 rgba(106, 90, 205, 0); } }
+#categorySelect.auto-selected { animation: autoSelected 0.8s ease; border-color: #6a5acd; }
+
+/* ===== Step 3: 애니메이션 ===== */
+@keyframes fadeIn { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeOut { from { opacity: 1; transform: translateX(0); } to { opacity: 0; transform: translateX(30px); } }
+@keyframes slideComplete { from { opacity: 0.5; transform: translateX(-20px); } to { opacity: 1; transform: translateX(0); } }
+li.fade-in { animation: fadeIn 0.3s ease; }
+li.fade-out { animation: fadeOut 0.3s ease forwards; pointer-events: none; }
+li.slide-in { animation: slideComplete 0.4s ease; }
+
+/* ===== Step 5: 접근성 ===== */
+:focus-visible { outline: 2px solid #6a5acd; outline-offset: 2px; }
+.task-text:focus-visible { border-radius: 4px; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+
+/* ===== Step 5: 삭제 실행 취소 토스트 ===== */
+.undo-toast { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%); display: flex; align-items: center; gap: 15px; background-color: #333; color: white; padding: 12px 18px; border-radius: 10px; box-shadow: 0 6px 16px rgba(0,0,0,0.25); font-size: 0.9rem; z-index: 10; animation: fadeIn 0.3s ease; max-width: calc(100% - 32px); }
+.undo-toast[hidden] { display: none; }
+#undoBtn { background: none; border: 1px solid #b3a9f5; color: #b3a9f5; border-radius: 6px; padding: 6px 12px; cursor: pointer; font-weight: bold; white-space: nowrap; }
+#undoBtn:hover { background-color: rgba(179, 169, 245, 0.15); }
+
+/* ===== 다크 모드 보완 ===== */
+body.dark-mode li:not(.empty-message):hover { background-color: #474747; }
+body.dark-mode .cheer-message { color: #b3a9f5; }
+body.dark-mode .edit-category-select { background-color: #444; color: #E0E0E0; border-color: #555; }
+body.dark-mode .undo-toast { background-color: #E0E0E0; color: #1A1A1A; }
+body.dark-mode #undoBtn { border-color: #6a5acd; color: #6a5acd; }
+body.dark-mode .empty-message { color: #888; }
+body.dark-mode .auto-category-hint.tag-text-work { color: #7AB3F0; }
+body.dark-mode .auto-category-hint.tag-text-personal { color: #5FD08F; }
+body.dark-mode .auto-category-hint.tag-text-study { color: #C08BDB; }
+
+/* ===== Step 4: 모바일 최적화 (480px 이하) + 터치 친화 버튼 ===== */
+@media (max-width: 480px) {
+    body { padding: 10px; align-items: flex-start; }
+    .app-container { padding: 18px; border-radius: 12px; }
+    h1 { font-size: 1.8rem; }
+    .category-stats { gap: 8px; }
+    .cat-stat { padding: 8px; }
+    .controls-container { flex-direction: column; }
+    .data-controls, .filter-container { flex-wrap: wrap; gap: 8px; }
+    .filter-btn { flex: 1; padding: 10px 0; }
+    .input-container { flex-wrap: wrap; }
+    #taskInput { flex-basis: 100%; order: -1; }
+    #categorySelect, #addBtn { flex: 1; }
+    .auto-category-hint { margin: -18px 0 12px; }
+    #searchInput, #sortSelect, #categorySelect, #addBtn, .filter-btn, .data-btn { min-height: 44px; font-size: 1rem; }
+    li { padding: 12px; flex-wrap: wrap; }
+    li input[type="checkbox"] { width: 24px; height: 24px; margin-right: 12px; }
+    .task-content { flex-wrap: wrap; gap: 6px; }
+    .time-text { margin-right: 10px; }
+    .delete-btn { width: 36px; height: 36px; }
+}
+
+/* 애니메이션을 줄이도록 설정한 사용자 배려 */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}

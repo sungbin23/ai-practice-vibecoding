@@ -1,0 +1,2412 @@
+ ▐▛███▛█   Claude Code v2.1.331
+▝▜██████▀  Opus 5.5 · Claude Pro
+ ▝▝   ▝▝   ~\VibeCoding\Study-02
+
+
+> /init                                                                         
+
+  Ran 3 shell commands · 1 failed (ctrl+o to expand)
+
+● Write(CLAUDE.md)
+  ⎿  Wrote 35 lines to CLAUDE.md
+       1 <!-- 작성일: 2026-11-25 01:49 -->
+       2 # CLAUDE.md
+       3 
+       4 This file provides guidance to Claude Code (claude.ai/code) when
+          working with code in this repository.
+       5 
+       6 # 개인용 할 일 관리 앱 (Personal To-Do App)
+       7 백엔드 없이 브라우저 LocalStorage에 데이터를 저장하는 Vanilla JS
+         (HTML/CSS/JS) To-Do 앱입니다. 상위 저장소(`VibeCoding`)의 `Study
+         -02` 하위 폴더이며, 빌드·린트·테스트 설정이나 패키지 의존성은 없
+     … +29 lines (~2 KB) (ctrl+o to expand)
+
+  Ran 1 shell command (ctrl+o to expand)
+
+● I'm fixing one wrong detail in the new CLAUDE.md: it says the dark mode
+  section has per-category colour classes, but it doesn't.
+
+● Update(CLAUDE.md)
+  ⎿  Added 1 line, removed 1 line
+      28  카테고리(`work`/`personal`/`study`)는 여러 곳에 하드코딩되어 있
+          습니다.
+      29  - `script.js`: `categoryNames`, `updateDashboard()`의 카테고리
+          배열, `Alt+1~4` 단축키 매핑
+      30  - `index.html`: `#categorySelect` 옵션, `.filter-btn[data-filte
+          r]`, 대시보드의 `{cat}Text` / `{cat}Progress` 요소
+      31 -- `style.css`: `.tag-{cat}`, `.{cat}-fill`, `.{cat}-stat` 색상 
+         -클래스(다크 모드 섹션 포함)                                    
+      31 +- `style.css`: `.tag-{cat}`, `.{cat}-fill`, `.{cat}-stat` 색상 
+         +클래스                                                         
+      32 
+      33  ## 작업 규칙
+      34  - 새로 만드는 파일 첫 줄에 작성 날짜·시간 주석을 넣습니다(예: `
+          <!-- 작성일: 2026-11-25 01:49 -->`, JS/CSS는 `/* 작성일: ... */
+          `). 기존 파일을 수정하면 `(수정됨)`을 붙여 시각을 갱신합니다. J
+          SON 등 주석을 지원하지 않는 형식은 예외입니다.
+
+● I created Study-02/CLAUDE.md. Following your memory rule, its first line is a
+  date/time comment. It's written in Korean to match Study-01's CLAUDE.md.
+
+  The project has no build, lint, tests or dependencies, so the file has no
+  commands for those. It covers:
+
+  - How to run: open index.html directly in a browser. To reset saved data, run
+    localStorage.clear() in the browser console.
+  - How script.js works:
+    - Every change updates the global tasks array, saves it, then redraws the
+      whole list with renderTasks().
+    - Each task's click/edit/drag handlers must use originalIndex (its position
+      in tasks). The list on screen is a filtered and sorted copy, so using the
+      screen position changes the wrong task.
+    - It records the task data shape, the three browser storage keys, and the
+      export/import JSON format.
+  - Adding a category: the three categories are hardcoded in all three files,
+    and the file lists every place that needs changing.
+  - Rules: the date/time comment rule and keeping UI text in Korean.
+
+  I also found two things in the code worth knowing:
+  - Drag-and-drop reordering doesn't show on screen. Dragging reorders the tasks
+    array, but the list is always re-sorted with the selected sort option when
+    it redraws.
+  - README_old.md is a leftover copy. It's the same as README.md except for a
+    missing final newline.
+
+  The file isn't committed yet.
+
+✻ Sautéed for 44s · done 오전 1:49
+
+> 이 할 일 관리 앱은 다른 AI로 만든 거라 교재 요구사항과 다를 수 있어.          
+  @../GUIDE.md 의 "Study-02 참고: Step 1~5 요구사항"을 기준으로 현재            
+  index.html, style.css, script.js를 점검해 줘.                                 
+  각 Step별로 구현됨/부분 구현/없음을 표로 먼저 보여주고, 없거나 부분 구현인    
+  것만 기존 코드를 유지하면서 추가해 줘.                                        
+  ⎿  Read ..\GUIDE.md (564 lines)
+
+  Ran 1 shell command (ctrl+o to expand)
+
+● Here's what I'm going to do: check the Study-01 precedent for where the date
+  comment goes in HTML, then compare the code against Step 1–5.
+
+  Ran 1 shell command (ctrl+o to expand)
+
+● Results of checking the code against GUIDE.md's Step 1–5 requirements:
+
+  ┌──────┬─────────────────────────────────┬─────────┬─────────────────────┐
+  │ Step │           Requirement           │ Status  │        Notes        │
+  ├──────┼─────────────────────────────────┼─────────┼─────────────────────┤
+  │ 1    │ 3 files, "My Tasks" title,      │ ✅ Done │                     │
+  │      │ input + add button, list        │         │                     │
+  ├──────┼─────────────────────────────────┼─────────┼─────────────────────┤
+  │ 1    │ Add (Enter/button), delete (X), │ ✅ Done │                     │
+  │      │  checkbox + strikethrough       │         │                     │
+  ├──────┼─────────────────────────────────┼─────────┼─────────────────────┤
+  │ 1    │ localStorage auto-save,         │ ✅ Done │                     │
+  │      │ centered card layout, max 600px │         │                     │
+  ├──────┼─────────────────────────────────┼─────────┼─────────────────────┤
+  │      │                                 │ 🟡      │ No hover on task    │
+  │ 1    │ Hover/transition effects        │ Partial │ items or the add    │
+  │      │                                 │         │ button              │
+  ├──────┼─────────────────────────────────┼─────────┼─────────────────────┤
+  │      │ Data { id, text, completed,     │ 🟡      │ No id field (array  │
+  │ 1    │ createdAt }                     │ Partial │ index is used       │
+  │      │                                 │         │ instead)            │
+  ├──────┼─────────────────────────────────┼─────────┼─────────────────────┤
+  │      │ 3 categories, dropdown, colour  │         │                     │
+  │ 2    │ tags, filter buttons +          │ ✅ Done │                     │
+  │      │ highlight, colour codes         │         │                     │
+  ├──────┼─────────────────────────────────┼─────────┼─────────────────────┤
+  │      │                                 │ 🟡      │ Only shows "N분     │
+  │ 2    │ Creation time like "2시간 전"   │ Partial │ 전", then switches  │
+  │      │                                 │         │ to clock time       │
+  ├──────┼─────────────────────────────────┼─────────┼─────────────────────┤
+  │ 2    │ Save filter state               │ ❌      │ Resets to "전체" on │
+  │      │                                 │ Missing │  refresh            │
+  ├──────┼─────────────────────────────────┼─────────┼─────────────────────┤
+  │ 2    │ Completed items move to the     │ 🟡      │ Only under the      │
+  │      │ bottom automatically            │ Partial │ "완료순" sort       │
+  ├──────┼─────────────────────────────────┼─────────┼─────────────────────┤
+  │ 3    │ Overall/category progress,      │ ✅ Done │                     │
+  │      │ today's count, live updates     │         │                     │
+  ├──────┼─────────────────────────────────┼─────────┼─────────────────────┤
+  │      │                                 │         │ No category select; │
+  │ 3    │ Double-click inline edit        │ 🟡      │  clicks blocked by  │
+  │      │ (Enter/ESC)                     │ Partial │ pointer-events:     │
+  │      │                                 │         │ none                │
+  ├──────┼─────────────────────────────────┼─────────┼─────────────────────┤
+  │ 3    │ Progress bar transition         │ ✅ Done │                     │
+  ├──────┼─────────────────────────────────┼─────────┼─────────────────────┤
+  │ 3    │ Fade on add/delete, slide on    │ ❌      │                     │
+  │      │ complete                        │ Missing │                     │
+  ├──────┼─────────────────────────────────┼─────────┼─────────────────────┤
+  │      │ Dark mode toggle/colours/saved, │         │                     │
+  │ 4    │  clear completed (confirm),     │ ✅ Done │                     │
+  │      │ search, empty-state message     │         │                     │
+  ├──────┼─────────────────────────────────┼─────────┼─────────────────────┤
+  │ 4    │ Remaining-count badge           │ ❌      │                     │
+  │      │                                 │ Missing │                     │
+  ├──────┼─────────────────────────────────┼─────────┼─────────────────────┤
+  │ 4    │ Alt+N, Alt+1~4                  │ ✅ Done │                     │
+  ├──────┼─────────────────────────────────┼─────────┼─────────────────────┤
+  │ 4    │ Alt+D dark mode                 │ ❌      │                     │
+  │      │                                 │ Missing │                     │
+  ├──────┼─────────────────────────────────┼─────────┼─────────────────────┤
+  │ 4    │ Mobile (≤480px) layout,         │ ❌      │ No media query      │
+  │      │ touch-friendly buttons          │ Missing │                     │
+  ├──────┼─────────────────────────────────┼─────────┼─────────────────────┤
+  │ 5    │ JSON export/import              │ 🟡      │ No backup prompt    │
+  │      │                                 │ Partial │ before import       │
+  ├──────┼─────────────────────────────────┼─────────┼─────────────────────┤
+  │      │ Sort by                         │         │                     │
+  │ 5    │ date/category/completion, sort  │ ✅ Done │                     │
+  │      │ saved                           │         │                     │
+  ├──────┼─────────────────────────────────┼─────────┼─────────────────────┤
+  │      │                                 │         │ Sorting runs after  │
+  │ 5    │ Drag and drop                   │ 🟡      │ every drop, so the  │
+  │      │                                 │ Partial │ new order doesn't   │
+  │      │                                 │         │ show                │
+  ├──────┼─────────────────────────────────┼─────────┼─────────────────────┤
+  │ 5    │ Debouncing (search, save),      │ ❌      │ Full redraw on      │
+  │      │ smooth with 100+ items          │ Missing │ every keystroke     │
+  ├──────┼─────────────────────────────────┼─────────┼─────────────────────┤
+  │ 5    │ ARIA labels, focus management,  │ ❌      │                     │
+  │      │ screen reader                   │ Missing │                     │
+  ├──────┼─────────────────────────────────┼─────────┼─────────────────────┤
+  │ 5    │ Duplicate warning, undo delete, │ ❌      │                     │
+  │      │  completion cheer message       │ Missing │                     │
+  ├──────┼─────────────────────────────────┼─────────┼─────────────────────┤
+  │ 5    │ Quote of the day                │ ✅ Done │                     │
+  ├──────┼─────────────────────────────────┼─────────┼─────────────────────┤
+  │      │ Error handling, detailed        │ 🟡      │ Only import has     │
+  │ 5    │ comments                        │ Partial │ try/catch; few      │
+  │      │                                 │         │ comments            │
+  └──────┴─────────────────────────────────┴─────────┴─────────────────────┘
+
+  Next I'll fill in the 🟡 and ❌ items while keeping the existing code.
+  script.js needs most of its functions changed, so I'm rewriting the whole file
+  with every existing feature kept.
+
+● Write(script.js)
+  ⎿  Added 504 lines, removed 149 lines
+       1 +/* 작성일: 2026-11-25 01:51 (수정됨) */                        
+       2 +/**                                                            
+       3 + * My Tasks - 개인용 할 일 관리 앱                             
+       4 + *                                                             
+       5 + * 동작 원칙: 전역 `tasks` 배열이 유일한 데이터 원본이다.      
+       6 + * 모든 변경은 `tasks` 수정 → saveTasks() → renderTasks() 순서 
+         +로 처리하며,                                                   
+       7 + * renderTasks()는 목록 전체를 다시 그리고 대시보드까지 갱신한 
+         +다.                                                            
+       8 + * 화면의 항목은 필터·검색·정렬이 적용된 복사본이므로 항목 식별
+         +은 항상 task.id로 한다.                                        
+       9 + */                                                            
+      10 +                                                               
+      11 +// ===== DOM 참조 =====                                        
+      12  const taskInput = document.getElementById('taskInput');
+      13  const categorySelect = document.getElementById('categorySelect'
+          );
+      14  const addBtn = document.getElementById('addBtn');
+     ...
+      22  const importBtn = document.getElementById('importBtn');
+      23  const importFile = document.getElementById('importFile');
+      24  const quoteContainer = document.getElementById('quoteContainer'
+          );
+      25 +const remainingBadge = document.getElementById('remainingBadge'
+         +);                                                             
+      26 +const cheerMessage = document.getElementById('cheerMessage');  
+      27 +const srStatus = document.getElementById('srStatus');          
+      28 +const undoToast = document.getElementById('undoToast');        
+      29 +const undoText = document.getElementById('undoText');          
+      30 +const undoBtn = document.getElementById('undoBtn');            
+      31 
+      15 -let tasks = JSON.parse(localStorage.getItem('tasks')) || [];   
+      16 -let currentFilter = 'all';                                     
+      17 -let currentSort = localStorage.getItem('currentSort') || 'lates
+         -t';                                                            
+      18 -sortSelect.value = currentSort;                                
+      32 +// ===== 상수 =====                                            
+      33 +const CATEGORIES = ['work', 'personal', 'study'];              
+      34  const categoryNames = { work: '업무', personal: '개인', study:
+          '공부' };
+      35 +const FILTERS = ['all', ...CATEGORIES];                        
+      36 +const SORTS = ['latest', 'oldest', 'category', 'completed', 'ma
+         +nual'];                                                        
+      37 +const SEARCH_DEBOUNCE_MS = 250;                                
+      38 +const SAVE_DEBOUNCE_MS = 300;                                  
+      39 +const UNDO_TIMEOUT_MS = 5000;                                  
+      40 +const ANIMATION_MS = 300;                                      
+      41 
+      42  const quotes = [
+      43      "작은 진전도 큰 성과입니다 🌟",
+     ...
+       46      "시작이 반이다! 일단 시작해볼까요? 🚀",
+       47      "당신의 하루를 스스로 디자인하세요 🎨"
+       48  ];
+       28 -quoteContainer.textContent = quotes[Math.floor(Math.random() *
+          - quotes.length)];                                             
+       49 
+       30 -let isDarkMode = JSON.parse(localStorage.getItem('isDarkMode')
+          -) || false;                                                   
+       31 -if (isDarkMode) document.body.classList.add('dark-mode');     
+       32 -themeToggle.textContent = isDarkMode ? '☀️' : '🌙';           
+       50 +// ===== 유틸리티 =====                                       
+       51 
+       34 -themeToggle.addEventListener('click', () => {                 
+       35 -    isDarkMode = !isDarkMode;                                 
+       52 +/** localStorage 값을 JSON으로 안전하게 읽는다. 손상된 값이면 
+          +fallback을 돌려준다. */                                       
+       53 +function loadJSON(key, fallback) {                            
+       54 +    try {                                                     
+       55 +        const raw = localStorage.getItem(key);                
+       56 +        return raw === null ? fallback : JSON.parse(raw);     
+       57 +    } catch (error) {                                         
+       58 +        console.error(`localStorage '${key}' 읽기 실패:`, erro
+          +r);                                                           
+       59 +        return fallback;                                      
+       60 +    }                                                         
+       61 +}                                                             
+       62 +                                                              
+       63 +/** 마지막 호출 후 wait(ms) 동안 추가 호출이 없을 때만 fn을 실
+          +행한다. */                                                    
+       64 +function debounce(fn, wait) {                                 
+       65 +    let timer = null;                                         
+       66 +    return (...args) => {                                     
+       67 +        clearTimeout(timer);                                  
+       68 +        timer = setTimeout(() => fn(...args), wait);          
+       69 +    };                                                        
+       70 +}                                                             
+       71 +                                                              
+       72 +function generateId() {                                       
+       73 +    return Date.now().toString(36) + Math.random().toString(36
+          +).slice(2, 8);                                                
+       74 +}                                                             
+       75 +                                                              
+       76 +function findTask(id) {                                       
+       77 +    return tasks.find(t => t.id === id);                      
+       78 +}                                                             
+       79 +                                                              
+       80 +/** 저장소/가져오기 데이터를 앱이 쓰는 형태로 정리한다. 쓸 수 
+          +없는 항목은 null. */                                          
+       81 +function normalizeTask(raw) {                                 
+       82 +    if (!raw || typeof raw.text !== 'string' || !raw.text.trim
+          +()) return null;                                              
+       83 +    return {                                                  
+       84 +        id: raw.id ? String(raw.id) : generateId(),           
+       85 +        text: raw.text.trim(),                                
+       86 +        completed: Boolean(raw.completed),                    
+       87 +        category: CATEGORIES.includes(raw.category) ? raw.cate
+          +gory : 'personal',                                            
+       88 +        createdAt: isNaN(new Date(raw.createdAt)) ? new Date()
+          +.toISOString() : raw.createdAt                                
+       89 +    };                                                        
+       90 +}                                                             
+       91 +                                                              
+       92 +/** 배열 전체를 정리하고, 겹치는 id는 새로 발급한다. */       
+       93 +function normalizeTasks(list) {                               
+       94 +    if (!Array.isArray(list)) return [];                      
+       95 +    const seen = new Set();                                   
+       96 +    return list.map(normalizeTask).filter(Boolean).map(task =>
+          + {                                                            
+       97 +        if (seen.has(task.id)) task.id = generateId();        
+       98 +        seen.add(task.id);                                    
+       99 +        return task;                                          
+      100 +    });                                                       
+      101 +}                                                             
+      102 +                                                              
+      103 +/** 스크린 리더에 상태 변화를 알린다(aria-live 영역). */      
+      104 +function announce(message) {                                  
+      105 +    srStatus.textContent = '';                                
+      106 +    requestAnimationFrame(() => { srStatus.textContent = messa
+          +ge; });                                                       
+      107 +}                                                             
+      108 +                                                              
+      109 +/** 다시 그린 뒤 특정 항목의 요소로 포커스를 돌려준다. */     
+      110 +function focusTaskControl(id, selector) {                     
+      111 +    const li = taskList.querySelector(`li[data-id="${CSS.escap
+          +e(id)}"]`);                                                   
+      112 +    const target = li && li.querySelector(selector);          
+      113 +    if (target) target.focus();                               
+      114 +}                                                             
+      115 +                                                              
+      116 +// ===== 상태 =====                                           
+      117 +let tasks = normalizeTasks(loadJSON('tasks', []));            
+      118 +let currentFilter = FILTERS.includes(localStorage.getItem('cur
+          +rentFilter')) ? localStorage.getItem('currentFilter') : 'all';
+      119 +let currentSort = SORTS.includes(localStorage.getItem('current
+          +Sort')) ? localStorage.getItem('currentSort') : 'latest';     
+      120 +let isDarkMode = loadJSON('isDarkMode', false) === true;      
+      121 +let animateId = null;     // 다음 렌더링에서 애니메이션을 줄  
+          +항목 id                                                       
+      122 +let animateType = null;   // 'add' | 'complete'               
+      123 +let undoState = null;     // [{ task, index }] 삭제 취소용    
+      124 +let undoTimer = null;                                         
+      125 +let saveTimer = null;                                         
+      126 +                                                              
+      127 +// ===== 저장 (디바운싱) =====                                
+      128 +function persistTasks() {                                     
+      129 +    clearTimeout(saveTimer);                                  
+      130 +    saveTimer = null;                                         
+      131 +    try {                                                     
+      132 +        localStorage.setItem('tasks', JSON.stringify(tasks)); 
+      133 +    } catch (error) {                                         
+      134 +        console.error('저장 실패:', error);                   
+      135 +        alert('할 일을 저장하지 못했습니다. 브라우저 저장 공간
+          +을 확인해 주세요.');                                          
+      136 +    }                                                         
+      137 +}                                                             
+      138 +                                                              
+      139 +/** 연속 변경 시 마지막 변경 후 한 번만 저장한다. */          
+      140 +function saveTasks() {                                        
+      141 +    clearTimeout(saveTimer);                                  
+      142 +    saveTimer = setTimeout(persistTasks, SAVE_DEBOUNCE_MS);   
+      143 +}                                                             
+      144 +                                                              
+      145 +// 페이지를 떠나기 전에 대기 중인 저장을 즉시 처리            
+      146 +window.addEventListener('beforeunload', () => { if (saveTimer)
+          + persistTasks(); });                                          
+      147 +document.addEventListener('visibilitychange', () => {         
+      148 +    if (document.visibilityState === 'hidden' && saveTimer) pe
+          +rsistTasks();                                                 
+      149 +});                                                           
+      150 +                                                              
+      151 +// ===== 테마 =====                                           
+      152 +function applyTheme() {                                       
+      153      document.body.classList.toggle('dark-mode', isDarkMode);
+      154      themeToggle.textContent = isDarkMode ? '☀️' : '🌙';
+      155 +    themeToggle.setAttribute('aria-pressed', String(isDarkMode
+          +));                                                           
+      156 +}                                                             
+      157 +                                                              
+      158 +function toggleTheme() {                                      
+      159 +    isDarkMode = !isDarkMode;                                 
+      160 +    applyTheme();                                             
+      161      localStorage.setItem('isDarkMode', JSON.stringify(isDarkMo
+           de));
+       39 -});                                                           
+      162 +    announce(isDarkMode ? '다크 모드가 켜졌습니다.' : '라이트 
+          +모드가 켜졌습니다.');                                         
+      163 +}                                                             
+      164 
+      165 +themeToggle.addEventListener('click', toggleTheme);           
+      166 +                                                              
+      167 +// ===== 시간 표시 =====                                      
+      168  function getTimeAgo(dateString) {
+       42 -    const now = new Date();                                   
+      169      const date = new Date(dateString);
+       44 -    const diffInMinutes = Math.floor((now - date) / (1000 * 60
+          -));                                                           
+      170 +    const diffInMinutes = Math.floor((Date.now() - date) / (10
+          +00 * 60));                                                    
+      171      if (diffInMinutes < 1) return '방금 전';
+      172      if (diffInMinutes < 60) return `${diffInMinutes}분 전`;
+       47 -    const hours = date.getHours();                            
+       48 -    const minutes = date.getMinutes().toString().padStart(2, '
+          -0');                                                          
+       49 -    return `${hours >= 12 ? '오후' : '오전'} ${hours % 12 || 1
+          -2}:${minutes}`;                                               
+      173 +    const hours = Math.floor(diffInMinutes / 60);             
+      174 +    if (hours < 24) return `${hours}시간 전`;                 
+      175 +    const days = Math.floor(hours / 24);                      
+      176 +    if (days < 7) return `${days}일 전`;                      
+      177 +    return date.toLocaleDateString('ko-KR', { month: 'long', d
+          +ay: 'numeric' });                                             
+      178  }
+      179 
+      180 +// 1분마다 시간 텍스트만 갱신 (목록 전체를 다시 그리지 않음)  
+      181 +setInterval(() => {                                           
+      182 +    taskList.querySelectorAll('.time-text').forEach(span => { 
+      183 +        span.textContent = getTimeAgo(span.dataset.created);  
+      184 +    });                                                       
+      185 +}, 60 * 1000);                                                
+      186 +                                                              
+      187 +// ===== 대시보드 =====                                       
+      188 +function setProgress(fillId, percent) {                       
+      189 +    const fill = document.getElementById(fillId);             
+      190 +    fill.style.width = `${percent}%`;                         
+      191 +    fill.parentElement.setAttribute('aria-valuenow', String(Ma
+          +th.round(percent)));                                          
+      192 +}                                                             
+      193 +                                                              
+      194 +function getCheerMessage(percent, total) {                    
+      195 +    if (total === 0) return '첫 할 일을 추가해 보세요 ✍️';    
+      196 +    if (percent === 100) return '모든 할 일을 완료했어요! 정말
+          + 대단해요 🎉';                                                
+      197 +    if (percent >= 75) return '거의 다 왔어요! 조금만 더 힘내 
+          +세요 🔥';                                                     
+      198 +    if (percent >= 50) return '절반 넘게 해냈어요! 좋은 흐름이
+          +에요 👍';                                                     
+      199 +    if (percent >= 25) return '좋은 출발이에요! 계속 가 볼까요
+          +? 🌱';                                                        
+      200 +    return '하나씩 차근차근 시작해 봐요 💪';                  
+      201 +}                                                             
+      202 +                                                              
+      203  function updateDashboard() {
+      204      const total = tasks.length;
+      205      const completed = tasks.filter(t => t.completed).length;
+      206      const percent = total === 0 ? 0 : Math.round((completed /
+           total) * 100);
+      207      document.getElementById('overallText').textContent = `${co
+           mpleted}/${total} 완료 (${percent}%)`;
+       57 -    document.getElementById('overallProgress').style.width = `
+          -${percent}%`;                                                 
+      208 +    setProgress('overallProgress', percent);                  
+      209 +                                                              
+      210      const today = new Date().toDateString();
+      211      document.getElementById('todayCount').textContent = `${tas
+           ks.filter(t => new Date(t.createdAt).toDateString() === today)
+           .length}개`;
+      212 
+       61 -    ['work', 'personal', 'study'].forEach(cat => {            
+      213 +    CATEGORIES.forEach(cat => {                               
+      214          const catTasks = tasks.filter(t => t.category === cat)
+           ;
+       63 -        const catPercent = catTasks.length === 0 ? 0 : (catTas
+          -ks.filter(t => t.completed).length / catTasks.length) * 100;  
+       64 -        document.getElementById(`${cat}Text`).textContent = `$
+          -{catTasks.filter(t => t.completed).length}/${catTasks.length}`
+          -;                                                             
+       65 -        document.getElementById(`${cat}Progress`).style.width 
+          -= `${catPercent}%`;                                           
+      215 +        const catCompleted = catTasks.filter(t => t.completed)
+          +.length;                                                      
+      216 +        const catPercent = catTasks.length === 0 ? 0 : (catCom
+          +pleted / catTasks.length) * 100;                              
+      217 +        document.getElementById(`${cat}Text`).textContent = `$
+          +{catCompleted}/${catTasks.length}`;                           
+      218 +        setProgress(`${cat}Progress`, catPercent);            
+      219      });
+      220 +                                                              
+      221 +    remainingBadge.textContent = `${total - completed}개 남음`
+          +;                                                             
+      222 +    cheerMessage.textContent = getCheerMessage(percent, total)
+          +;                                                             
+      223  }
+      224 
+      225 +// ===== 정렬 =====                                           
+      226 +const sorters = {                                             
+      227 +    latest: (a, b) => new Date(b.createdAt) - new Date(a.creat
+          +edAt),                                                        
+      228 +    oldest: (a, b) => new Date(a.createdAt) - new Date(b.creat
+          +edAt),                                                        
+      229 +    category: (a, b) => a.category.localeCompare(b.category), 
+      230 +    completed: (a, b) => new Date(b.createdAt) - new Date(a.cr
+          +eatedAt),                                                     
+      231 +    manual: () => 0 // 배열 순서(드래그 앤 드롭 결과)를 그대로
+          + 유지                                                         
+      232 +};                                                            
+      233 +                                                              
+      234 +/** 완료 항목은 항상 아래로 보내고, 그 안에서 현재 정렬 방식을
+          + 적용한다. */                                                 
+      235 +function getSortedTasks(list) {                               
+      236 +    return [...list].sort((a, b) => (a.completed - b.completed
+          +) || sorters[currentSort](a, b));                             
+      237 +}                                                             
+      238 +                                                              
+      239 +function setSort(value) {                                     
+      240 +    currentSort = value;                                      
+      241 +    sortSelect.value = value;                                 
+      242 +    localStorage.setItem('currentSort', value);               
+      243 +}                                                             
+      244 +                                                              
+      245 +// ===== 렌더링 =====                                         
+      246 +function createTaskElement(task) {                            
+      247 +    const li = document.createElement('li');                  
+      248 +    li.dataset.id = task.id;                                  
+      249 +    li.draggable = true;                                      
+      250 +    if (task.completed) li.classList.add('completed');        
+      251 +    if (task.id === animateId) li.classList.add(animateType ==
+          += 'add' ? 'fade-in' : 'slide-in');                            
+      252 +                                                              
+      253 +    // 드래그 앤 드롭: id로 대상을 찾아 배열 순서를 바꾼다    
+      254 +    li.addEventListener('dragstart', (e) => {                 
+      255 +        li.classList.add('dragging');                         
+      256 +        e.dataTransfer.effectAllowed = 'move';                
+      257 +        e.dataTransfer.setData('text/plain', task.id);        
+      258 +    });                                                       
+      259 +    li.addEventListener('dragend', () => li.classList.remove('
+          +dragging'));                                                  
+      260 +    li.addEventListener('dragover', e => e.preventDefault()); 
+      261 +    li.addEventListener('drop', (e) => {                      
+      262 +        e.preventDefault();                                   
+      263 +        moveTask(e.dataTransfer.getData('text/plain'), task.id
+          +);                                                            
+      264 +    });                                                       
+      265 +                                                              
+      266 +    const checkbox = document.createElement('input');         
+      267 +    checkbox.type = 'checkbox';                               
+      268 +    checkbox.className = 'task-checkbox';                     
+      269 +    checkbox.checked = task.completed;                        
+      270 +    checkbox.setAttribute('aria-label', `"${task.text}" 완료  
+          +표시`);                                                       
+      271 +    checkbox.addEventListener('change', () => toggleTask(task.
+          +id));                                                         
+      272 +                                                              
+      273 +    const taskContent = document.createElement('div');        
+      274 +    taskContent.className = 'task-content';                   
+      275 +                                                              
+      276 +    const span = document.createElement('span');              
+      277 +    span.className = 'task-text';                             
+      278 +    span.textContent = task.text;                             
+      279 +    span.tabIndex = 0;                                        
+      280 +    span.title = '더블클릭(또는 Enter)하여 수정';             
+      281 +    span.addEventListener('dblclick', () => enableEditMode(li,
+          + task));                                                      
+      282 +    span.addEventListener('keydown', (e) => {                 
+      283 +        if (e.key === 'Enter' || e.key === 'F2') { e.preventDe
+          +fault(); enableEditMode(li, task); }                          
+      284 +    });                                                       
+      285 +                                                              
+      286 +    const tag = document.createElement('span');               
+      287 +    tag.className = `category-tag tag-${task.category}`;      
+      288 +    tag.textContent = categoryNames[task.category];           
+      289 +                                                              
+      290 +    const timeSpan = document.createElement('span');          
+      291 +    timeSpan.className = 'time-text';                         
+      292 +    timeSpan.dataset.created = task.createdAt;                
+      293 +    timeSpan.title = new Date(task.createdAt).toLocaleString('
+          +ko-KR');                                                      
+      294 +    timeSpan.textContent = getTimeAgo(task.createdAt);        
+      295 +                                                              
+      296 +    const deleteBtn = document.createElement('button');       
+      297 +    deleteBtn.className = 'delete-btn';                       
+      298 +    deleteBtn.textContent = 'X';                              
+      299 +    deleteBtn.setAttribute('aria-label', `"${task.text}" 삭제`
+          +);                                                            
+      300 +    deleteBtn.addEventListener('click', () => deleteTask(task.
+          +id, li));                                                     
+      301 +                                                              
+      302 +    taskContent.append(span, tag);                            
+      303 +    li.append(checkbox, taskContent, timeSpan, deleteBtn);    
+      304 +    return li;                                                
+      305 +}                                                             
+      306 +                                                              
+      307  function renderTasks() {
+       70 -    taskList.innerHTML = '';                                  
+       71 -    const keyword = searchInput.value.toLowerCase();          
+       72 -                                                              
+       73 -    // 1. 필터 및 검색 적용                                   
+       74 -    let displayTasks = tasks.filter(task => {                 
+      308 +    const keyword = searchInput.value.trim().toLowerCase();   
+      309 +                                                              
+      310 +    // 1. 필터 및 검색 적용 → 2. 정렬 적용                    
+      311 +    const displayTasks = getSortedTasks(tasks.filter(task => {
+      312          const matchesFilter = currentFilter === 'all' || task.
+           category === currentFilter;
+      313          const matchesSearch = task.text.toLowerCase().includes
+           (keyword);
+      314          return matchesFilter && matchesSearch;
+       78 -    });                                                       
+      315 +    }));                                                      
+      316 
+       80 -    // 2. 정렬 옵션 적용                                      
+       81 -    displayTasks.sort((a, b) => {                             
+       82 -        if (currentSort === 'latest') return new Date(b.create
+          -dAt) - new Date(a.createdAt);                                 
+       83 -        if (currentSort === 'oldest') return new Date(a.create
+          -dAt) - new Date(b.createdAt);                                 
+       84 -        if (currentSort === 'category') return a.category.loca
+          -leCompare(b.category);                                        
+       85 -        if (currentSort === 'completed') return (a.completed =
+          -== b.completed) ? 0 : a.completed ? 1 : -1;                   
+       86 -    });                                                       
+       87 -                                                              
+      317 +    // 3. DocumentFragment로 한 번에 DOM에 반영 (항목이 많아도
+          + 부드럽게)                                                    
+      318 +    const fragment = document.createDocumentFragment();       
+      319      if (displayTasks.length === 0) {
+       89 -        taskList.innerHTML = '<li class="empty-message">할 일 
+          -이 없습니다. 추가해보세요!</li>';                             
+      320 +        const empty = document.createElement('li');           
+      321 +        empty.className = 'empty-message';                    
+      322 +        if (tasks.length === 0) empty.textContent = '할 일이  
+          +없습니다. 추가해보세요!';                                     
+      323 +        else if (keyword) empty.textContent = '검색 결과가 없 
+          +습니다.';                                                     
+      324 +        else empty.textContent = '이 카테고리에는 할 일이 없습
+          +니다.';                                                       
+      325 +        fragment.appendChild(empty);                          
+      326      } else {
+       91 -        displayTasks.forEach((task) => {                      
+       92 -            const originalIndex = tasks.indexOf(task);        
+       93 -            const li = document.createElement('li');          
+       94 -            li.draggable = true; // 드래그 앤 드롭 활성화     
+       95 -                                                              
+       96 -            // 드래그 이벤트 설정                             
+       97 -            li.addEventListener('dragstart', (e) => {         
+       98 -                li.classList.add('dragging');                 
+       99 -                e.dataTransfer.setData('text/plain', originalI
+          -ndex);                                                        
+      100 -            });                                               
+      101 -            li.addEventListener('dragend', () => li.classList.
+          -remove('dragging'));                                          
+      102 -            li.addEventListener('dragover', e => e.preventDefa
+          -ult());                                                       
+      103 -            li.addEventListener('drop', (e) => {              
+      104 -                e.preventDefault();                           
+      105 -                const dragStartIndex = e.dataTransfer.getData(
+          -'text/plain');                                                
+      106 -                if (dragStartIndex === '' || dragStartIndex ==
+          - originalIndex) return;                                       
+      107 -                                                              
+      108 -                const draggedItem = tasks.splice(dragStartInde
+          -x, 1)[0];                                                     
+      109 -                tasks.splice(originalIndex, 0, draggedItem);  
+      110 -                saveTasks();                                  
+      111 -                renderTasks();                                
+      112 -            });                                               
+      327 +        displayTasks.forEach(task => fragment.appendChild(crea
+          +teTaskElement(task)));                                        
+      328 +    }                                                         
+      329 +    taskList.replaceChildren(fragment);                       
+      330 +    animateId = null;                                         
+      331 +    animateType = null;                                       
+      332 +    updateDashboard();                                        
+      333 +}                                                             
+      334 
+      114 -            if (task.completed) li.classList.add('completed');
+      335 +// ===== 할 일 조작 =====                                     
+      336 +function addTask() {                                          
+      337 +    const text = taskInput.value.trim();                      
+      338 +    if (!text) {                                              
+      339 +        announce('할 일 내용을 입력해 주세요.');              
+      340 +        taskInput.focus();                                    
+      341 +        return;                                               
+      342 +    }                                                         
+      343 
+      116 -            const checkbox = document.createElement('input'); 
+      117 -            checkbox.type = 'checkbox';                       
+      118 -            checkbox.checked = task.completed;                
+      119 -            checkbox.addEventListener('change', () => toggleTa
+          -sk(originalIndex));                                           
+      344 +    // 중복 경고                                              
+      345 +    const duplicate = tasks.find(t => t.text.toLowerCase() ===
+          + text.toLowerCase());                                         
+      346 +    if (duplicate && !confirm(`"${text}"은(는) 이미 목록에 있 
+          +습니다. 그래도 추가하시겠습니까?`)) {                         
+      347 +        taskInput.select();                                   
+      348 +        return;                                               
+      349 +    }                                                         
+      350 
+      121 -            const taskContent = document.createElement('div');
+      122 -            taskContent.className = 'task-content';           
+      123 -            const span = document.createElement('span');      
+      124 -            span.className = 'task-text';                     
+      125 -            span.textContent = task.text;                     
+      126 -            span.addEventListener('dblclick', () => enableEdit
+          -Mode(li, task, originalIndex));                               
+      351 +    const task = { id: generateId(), text, completed: false, c
+          +ategory: categorySelect.value, createdAt: new Date().toISOStri
+          +ng() };                                                       
+      352 +    tasks.push(task);                                         
+      353 +    animateId = task.id;                                      
+      354 +    animateType = 'add';                                      
+      355 +    taskInput.value = '';                                     
+      356 +    saveTasks();                                              
+      357 +    renderTasks();                                            
+      358 
+      128 -            const tag = document.createElement('span');       
+      129 -            tag.className = `category-tag tag-${task.category}
+          -`;                                                            
+      130 -            tag.textContent = categoryNames[task.category];   
+      359 +    const hidden = currentFilter !== 'all' && currentFilter !=
+          += task.category;                                              
+      360 +    announce(`"${text}"을(를) ${categoryNames[task.category]} 
+          +에 추가했습니다.${hidden ? ' 현재 필터에서는 보이지 않습니다.'
+          + : ''}`);                                                     
+      361 +    taskInput.focus();                                        
+      362 +}                                                             
+      363 
+      132 -            const timeSpan = document.createElement('span');  
+      133 -            timeSpan.className = 'time-text';                 
+      134 -            timeSpan.textContent = getTimeAgo(task.createdAt);
+      364 +function toggleTask(id) {                                     
+      365 +    const task = findTask(id);                                
+      366 +    if (!task) return;                                        
+      367 +    task.completed = !task.completed;                         
+      368 +    if (task.completed) { animateId = id; animateType = 'compl
+          +ete'; }                                                       
+      369 +    saveTasks();                                              
+      370 +    renderTasks();                                            
+      371 +    announce(task.completed ? `"${task.text}" 완료` : `"${task
+          +.text}" 완료 취소`);                                          
+      372 +    focusTaskControl(id, '.task-checkbox');                   
+      373 +}                                                             
+      374 
+      136 -            const deleteBtn = document.createElement('button')
+          -;                                                             
+      137 -            deleteBtn.className = 'delete-btn';               
+      138 -            deleteBtn.innerHTML = 'X';                        
+      139 -            deleteBtn.addEventListener('click', () => deleteTa
+          -sk(originalIndex));                                           
+      375 +/** 페이드아웃 애니메이션 후 삭제하고, 실행 취소를 제공한다. *
+          +/                                                             
+      376 +function deleteTask(id, li) {                                 
+      377 +    if (!findTask(id) || (li && li.classList.contains('fade-ou
+          +t'))) return;                                                 
+      378 +    const neighbor = li && (li.nextElementSibling || li.previo
+          +usElementSibling);                                            
+      379 +    const nextFocusId = neighbor && neighbor.dataset.id;      
+      380 
+      141 -            taskContent.appendChild(span);                    
+      142 -            taskContent.appendChild(tag);                     
+      143 -            li.appendChild(checkbox);                         
+      144 -            li.appendChild(taskContent);                      
+      145 -            li.appendChild(timeSpan);                         
+      146 -            li.appendChild(deleteBtn);                        
+      147 -            taskList.appendChild(li);                         
+      148 -        });                                                   
+      381 +    const remove = () => {                                    
+      382 +        const index = tasks.findIndex(t => t.id === id);      
+      383 +        if (index < 0) return;                                
+      384 +        const [removed] = tasks.splice(index, 1);             
+      385 +        saveTasks();                                          
+      386 +        renderTasks();                                        
+      387 +        offerUndo(`"${removed.text}" 삭제됨`, [{ task: removed
+          +, index }]);                                                  
+      388 +        if (nextFocusId) focusTaskControl(nextFocusId, '.task-
+          +checkbox');                                                   
+      389 +        else taskInput.focus();                               
+      390 +    };                                                        
+      391 +                                                              
+      392 +    if (li) {                                                 
+      393 +        li.classList.add('fade-out');                         
+      394 +        setTimeout(remove, ANIMATION_MS);                     
+      395 +    } else {                                                  
+      396 +        remove();                                             
+      397      }
+      150 -    updateDashboard();                                        
+      398  }
+      399 
+      153 -function enableEditMode(li, task, index) {                    
+      400 +/** 드래그한 항목(fromId)을 놓은 항목(toId) 위치로 옮긴다. */ 
+      401 +function moveTask(fromId, toId) {                             
+      402 +    if (!fromId || fromId === toId) return;                   
+      403 +    // 다른 정렬 중이었다면 지금 보이는 순서를 기준으로 '직접 
+          +정렬'로 전환                                                  
+      404 +    if (currentSort !== 'manual') {                           
+      405 +        tasks = getSortedTasks(tasks);                        
+      406 +        setSort('manual');                                    
+      407 +        announce('직접 정렬로 전환되었습니다.');              
+      408 +    }                                                         
+      409 +    const from = tasks.findIndex(t => t.id === fromId);       
+      410 +    const to = tasks.findIndex(t => t.id === toId);           
+      411 +    if (from < 0 || to < 0) return;                           
+      412 +    const [dragged] = tasks.splice(from, 1);                  
+      413 +    tasks.splice(to, 0, dragged);                             
+      414 +    saveTasks();                                              
+      415 +    renderTasks();                                            
+      416 +}                                                             
+      417 +                                                              
+      418 +function enableEditMode(li, task) {                           
+      419      const taskContent = li.querySelector('.task-content');
+      155 -    taskContent.innerHTML = '';                               
+      420 +    if (taskContent.classList.contains('editing')) return;    
+      421 +    taskContent.classList.add('editing');                     
+      422 +    li.draggable = false; // 편집 중 텍스트 선택이 드래그로 바
+          +뀌지 않도록                                                   
+      423 +    taskContent.replaceChildren();                            
+      424 +                                                              
+      425      const editInput = document.createElement('input');
+      157 -    editInput.type = 'text'; editInput.value = task.text;     
+      426 +    editInput.type = 'text';                                  
+      427 +    editInput.value = task.text;                              
+      428      editInput.className = 'edit-mode-input';
+      159 -                                                              
+      429 +    editInput.title = 'Enter 저장 · ESC 취소';                
+      430 +    editInput.setAttribute('aria-label', '할 일 내용 수정 (Ent
+          +er 저장, ESC 취소)');                                         
+      431 +                                                              
+      432 +    const editCategory = document.createElement('select');    
+      433 +    editCategory.className = 'edit-category-select';          
+      434 +    editCategory.setAttribute('aria-label', '카테고리 변경'); 
+      435 +    CATEGORIES.forEach(cat => editCategory.add(new Option(cate
+          +goryNames[cat], cat)));                                       
+      436 +    editCategory.value = task.category;                       
+      437 +                                                              
+      438      const saveEdit = () => {
+      161 -        if (editInput.value.trim()) tasks[index].text = editIn
+          -put.value.trim();                                             
+      162 -        saveTasks(); renderTasks();                           
+      439 +        const target = findTask(task.id);                     
+      440 +        if (target) {                                         
+      441 +            if (editInput.value.trim()) target.text = editInpu
+          +t.value.trim();                                               
+      442 +            target.category = editCategory.value;             
+      443 +            saveTasks();                                      
+      444 +            announce('수정되었습니다.');                      
+      445 +        }                                                     
+      446 +        renderTasks();                                        
+      447 +        focusTaskControl(task.id, '.task-text');              
+      448      };
+      164 -    editInput.addEventListener('keydown', (e) => {            
+      165 -        if (e.key === 'Enter') saveEdit();                    
+      166 -        if (e.key === 'Escape') renderTasks();                
+      167 -    });                                                       
+      168 -    taskContent.appendChild(editInput);                       
+      449 +    const cancelEdit = () => {                                
+      450 +        renderTasks();                                        
+      451 +        focusTaskControl(task.id, '.task-text');              
+      452 +    };                                                        
+      453 +    const onKeydown = (e) => {                                
+      454 +        if (e.key === 'Enter') { e.preventDefault(); saveEdit(
+          +); }                                                          
+      455 +        if (e.key === 'Escape') { e.preventDefault(); cancelEd
+          +it(); }                                                       
+      456 +    };                                                        
+      457 +    editInput.addEventListener('keydown', onKeydown);         
+      458 +    editCategory.addEventListener('keydown', onKeydown);      
+      459 +                                                              
+      460 +    taskContent.append(editInput, editCategory);              
+      461      editInput.focus();
+      462 +    editInput.select();                                       
+      463  }
+      464 
+      172 -function saveTasks() { localStorage.setItem('tasks', JSON.stri
+          -ngify(tasks)); }                                              
+      465 +// ===== 실행 취소 =====                                      
+      466 +function offerUndo(message, removedItems) {                   
+      467 +    undoState = removedItems;                                 
+      468 +    undoText.textContent = message;                           
+      469 +    undoToast.hidden = false;                                 
+      470 +    announce(`${message}. 실행 취소하려면 Ctrl+Z를 누르세요.`)
+          +;                                                             
+      471 +    clearTimeout(undoTimer);                                  
+      472 +    undoTimer = setTimeout(hideUndo, UNDO_TIMEOUT_MS);        
+      473 +}                                                             
+      474 
+      174 -function addTask() {                                          
+      175 -    const text = taskInput.value.trim();                      
+      176 -    if (text) {                                               
+      177 -        tasks.push({ text: text, completed: false, category: c
+          -ategorySelect.value, createdAt: new Date().toISOString() });  
+      178 -        taskInput.value = ''; saveTasks(); renderTasks();     
+      179 -    }                                                         
+      475 +function hideUndo() {                                         
+      476 +    clearTimeout(undoTimer);                                  
+      477 +    undoToast.hidden = true;                                  
+      478 +    undoState = null;                                         
+      479  }
+      480 
+      182 -function toggleTask(index) { tasks[index].completed = !tasks[i
+          -ndex].completed; saveTasks(); renderTasks(); }                
+      183 -function deleteTask(index) { tasks.splice(index, 1); saveTasks
+          -(); renderTasks(); }                                          
+      481 +function undoDelete() {                                       
+      482 +    if (!undoState) return;                                   
+      483 +    // 원래 위치를 오름차순으로 다시 끼워 넣으면 기존 순서가  
+          +복원된다                                                      
+      484 +    const restored = [...undoState].sort((a, b) => a.index - b
+          +.index);                                                      
+      485 +    restored.forEach(({ task, index }) => tasks.splice(Math.mi
+          +n(index, tasks.length), 0, task));                            
+      486 +    hideUndo();                                               
+      487 +    saveTasks();                                              
+      488 +    renderTasks();                                            
+      489 +    announce(`${restored.length}개 항목을 복원했습니다.`);    
+      490 +}                                                             
+      491 
+      185 -// 정렬 변경 이벤트                                           
+      492 +undoBtn.addEventListener('click', undoDelete);                
+      493 +                                                              
+      494 +// ===== 정렬 변경 =====                                      
+      495 +sortSelect.value = currentSort;                               
+      496  sortSelect.addEventListener('change', (e) => {
+      187 -    currentSort = e.target.value;                             
+      188 -    localStorage.setItem('currentSort', currentSort);         
+      497 +    setSort(e.target.value);                                  
+      498      renderTasks();
+      499  });
+      500 
+      192 -// JSON 내보내기                                              
+      193 -exportBtn.addEventListener('click', () => {                   
+      501 +// ===== JSON 내보내기 / 가져오기 =====                       
+      502 +function exportTasks({ silent = false } = {}) {               
+      503      const exportData = { tasks, settings: { currentFilter, cur
+           rentSort, isDarkMode }, metadata: { exportDate: new Date().toI
+           SOString(), taskCount: tasks.length } };
+      504      const blob = new Blob([JSON.stringify(exportData, null, 2)
+           ], { type: "application/json" });
+      505 +    const url = URL.createObjectURL(blob);                    
+      506      const a = document.createElement('a');
+      197 -    a.href = URL.createObjectURL(blob);                       
+      507 +    a.href = url;                                             
+      508      a.download = `my-tasks-${new Date().toISOString().split('T
+           ')[0]}.json`;
+      509      a.click();
+      200 -    alert('데이터가 성공적으로 내보내졌습니다!');             
+      201 -});                                                           
+      510 +    setTimeout(() => URL.revokeObjectURL(url), 1000);         
+      511 +    if (!silent) alert('데이터가 성공적으로 내보내졌습니다!');
+      512 +}                                                             
+      513 
+      203 -// JSON 가져오기                                              
+      514 +exportBtn.addEventListener('click', () => exportTasks());     
+      515 +                                                              
+      516  importBtn.addEventListener('click', () => importFile.click());
+      517  importFile.addEventListener('change', (e) => {
+      518      const file = e.target.files[0];
+      519 +    importFile.value = ''; // 같은 파일을 다시 고를 수 있도록 
+          +초기화                                                        
+      520      if (!file) return;
+      208 -    if (confirm(`현재 ${tasks.length}개의 할 일이 있습니다. 가
+          -져오시겠습니까? (현재 데이터는 덮어씌워집니다)`)) {           
+      209 -        const reader = new FileReader();                      
+      210 -        reader.onload = (e) => {                              
+      211 -            try {                                             
+      212 -                const data = JSON.parse(e.target.result);     
+      213 -                if (data.tasks) {                             
+      214 -                    tasks = data.tasks;                       
+      215 -                    saveTasks();                              
+      216 -                    renderTasks();                            
+      217 -                    alert('데이터를 성공적으로 불러왔습니다!')
+          -;                                                             
+      218 -                }                                             
+      219 -            } catch (error) {                                 
+      220 -                alert('파일 형식이 잘못되었습니다.');         
+      221 -            }                                                 
+      222 -        };                                                    
+      223 -        reader.readAsText(file);                              
+      521 +    if (!confirm(`현재 ${tasks.length}개의 할 일이 있습니다.  
+          +가져오시겠습니까? (현재 데이터는 덮어씌워집니다)`)) return;   
+      522 +                                                              
+      523 +    // 가져오기 전 백업 확인                                  
+      524 +    if (tasks.length > 0 && confirm('덮어쓰기 전에 현재 데이터
+          +를 백업 파일로 저장할까요?')) {                               
+      525 +        exportTasks({ silent: true });                        
+      526      }
+      225 -    importFile.value = ''; // 초기화                          
+      527 +                                                              
+      528 +    const reader = new FileReader();                          
+      529 +    reader.onload = (event) => {                              
+      530 +        try {                                                 
+      531 +            const data = JSON.parse(event.target.result);     
+      532 +            const list = Array.isArray(data) ? data : data && 
+          +data.tasks;                                                   
+      533 +            if (!Array.isArray(list)) throw new Error('tasks  
+          +목록을 찾을 수 없습니다.');                                   
+      534 +            const imported = normalizeTasks(list);            
+      535 +            if (list.length > 0 && imported.length === 0) thro
+          +w new Error('올바른 할 일 항목이 없습니다.');                 
+      536 +                                                              
+      537 +            tasks = imported;                                 
+      538 +            hideUndo();                                       
+      539 +            persistTasks();                                   
+      540 +            renderTasks();                                    
+      541 +            const skipped = list.length - imported.length;    
+      542 +            alert(`데이터를 성공적으로 불러왔습니다! (${import
+          +ed.length}개${skipped > 0 ? `, 잘못된 항목 ${skipped}개 제외` 
+          +: ''})`);                                                     
+      543 +        } catch (error) {                                     
+      544 +            console.error('가져오기 실패:', error);           
+      545 +            alert(`파일 형식이 잘못되었습니다.\n${error.messag
+          +e}`);                                                         
+      546 +        }                                                     
+      547 +    };                                                        
+      548 +    reader.onerror = () => alert('파일을 읽는 중 오류가 발생했
+          +습니다.');                                                    
+      549 +    reader.readAsText(file);                                  
+      550  });
+      551 
+      552 +// ===== 완료 항목 일괄 삭제 =====                            
+      553  clearCompletedBtn.addEventListener('click', () => {
+      554      const completedCount = tasks.filter(t => t.completed).leng
+           th;
+      555      if (completedCount === 0) return alert('삭제할 완료된 항목
+           이 없습니다.');
+      556      if (confirm(`완료된 할 일 ${completedCount}개를 모두 삭제
+           하시겠습니까?`)) {
+      557 +        const removed = [];                                   
+      558 +        tasks.forEach((task, index) => { if (task.completed) r
+          +emoved.push({ task, index }); });                             
+      559          tasks = tasks.filter(t => !t.completed);
+      233 -        saveTasks(); renderTasks();                           
+      560 +        saveTasks();                                          
+      561 +        renderTasks();                                        
+      562 +        offerUndo(`완료 항목 ${completedCount}개 삭제됨`, remo
+          +ved);                                                         
+      563      }
+      564  });
+      565 
+      566 +// ===== 필터 (상태 저장) =====                               
+      567 +function setFilter(filter) {                                  
+      568 +    currentFilter = filter;                                   
+      569 +    localStorage.setItem('currentFilter', filter);            
+      570 +    filterBtns.forEach(b => {                                 
+      571 +        const active = b.dataset.filter === filter;           
+      572 +        b.classList.toggle('active', active);                 
+      573 +        b.setAttribute('aria-pressed', String(active));       
+      574 +    });                                                       
+      575 +}                                                             
+      576 +                                                              
+      577  filterBtns.forEach(btn => {
+      238 -    btn.addEventListener('click', (e) => {                    
+      239 -        filterBtns.forEach(b => b.classList.remove('active'));
+      240 -        e.target.classList.add('active');                     
+      241 -        currentFilter = e.target.getAttribute('data-filter'); 
+      578 +    btn.addEventListener('click', () => {                     
+      579 +        setFilter(btn.dataset.filter);                        
+      580          renderTasks();
+      581      });
+      582  });
+      583 
+      584 +// ===== 입력 / 검색 =====                                    
+      585  addBtn.addEventListener('click', addTask);
+      247 -taskInput.addEventListener('keypress', (e) => { if (e.key === 
+          -'Enter') addTask(); });                                       
+      248 -searchInput.addEventListener('input', renderTasks);           
+      586 +taskInput.addEventListener('keydown', (e) => {                
+      587 +    if (e.key === 'Enter' && !e.isComposing) addTask(); // 한 
+          +글 조합 중 Enter는 무시                                       
+      588 +});                                                           
+      589 +searchInput.addEventListener('input', debounce(renderTasks, SE
+          +ARCH_DEBOUNCE_MS));                                           
+      590 +searchInput.addEventListener('keydown', (e) => {              
+      591 +    if (e.key === 'Escape') { searchInput.value = ''; renderTa
+          +sks(); }                                                      
+      592 +});                                                           
+      593 
+      594 +// ===== 키보드 단축키 =====                                  
+      595  document.addEventListener('keydown', (e) => {
+      596      if (e.altKey) {
+      252 -        switch(e.key.toLowerCase()) {                         
+      253 -            case 'n': e.preventDefault(); taskInput.focus(); b
+          -reak;                                                         
+      254 -            case '1': document.querySelector('[data-filter="al
+          -l"]').click(); break;                                         
+      255 -            case '2': document.querySelector('[data-filter="wo
+          -rk"]').click(); break;                                        
+      256 -            case '3': document.querySelector('[data-filter="pe
+          -rsonal"]').click(); break;                                    
+      257 -            case '4': document.querySelector('[data-filter="st
+          -udy"]').click(); break;                                       
+      258 -        }                                                     
+      597 +        const filterKeys = { '1': 'all', '2': 'work', '3': 'pe
+          +rsonal', '4': 'study' };                                      
+      598 +        const key = e.key.toLowerCase();                      
+      599 +        if (key === 'n') { e.preventDefault(); taskInput.focus
+          +(); }                                                         
+      600 +        else if (key === 'd') { e.preventDefault(); toggleThem
+          +e(); }                                                        
+      601 +        else if (filterKeys[key]) { e.preventDefault(); docume
+          +nt.querySelector(`[data-filter="${filterKeys[key]}"]`).click()
+          +; }                                                           
+      602 +        return;                                               
+      603      }
+      604 +    // 입력창 밖에서 Ctrl+Z → 삭제 실행 취소                  
+      605 +    const typing = ['INPUT', 'SELECT', 'TEXTAREA'].includes(do
+          +cument.activeElement.tagName);                                
+      606 +    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'z
+          +' && undoState && !typing) {                                  
+      607 +        e.preventDefault();                                   
+      608 +        undoDelete();                                         
+      609 +    }                                                         
+      610  });
+      611 
+      262 -renderTasks();                                                
+          \ No newline at end of file
+      612 +// ===== 초기화 =====                                         
+      613 +quoteContainer.textContent = quotes[Math.floor(Math.random() *
+          + quotes.length)];                                             
+      614 +applyTheme();                                                 
+      615 +setFilter(currentFilter);                                     
+      616 +persistTasks(); // 예전 데이터에 id를 부여한 결과를 바로 저장 
+      617 +renderTasks();                                                
+
+● Now the HTML: adding the remaining-count badge, cheer message, undo toast,
+  screen-reader announcement area and ARIA attributes.
+
+● Write(index.html)
+  ⎿  Added 42 lines, removed 25 lines
+      1 +<!-- 작성일: 2026-11-25 01:51 (수정됨) -->                      
+      2  <!DOCTYPE html>
+      3  <html lang="ko">
+      4  <head>
+     ...
+       8      <link rel="stylesheet" href="style.css">
+       9  </head>
+      10  <body>
+      10 -    <div class="app-container">                                
+      11 +    <main class="app-container">                               
+      12          <div class="header-container">
+      12 -            <h1>My Tasks</h1>                                  
+      13 -            <button id="themeToggle" title="다크 모드 전환">🌙<
+         -/button>                                                       
+      13 +            <div class="title-group">                          
+      14 +                <h1>My Tasks</h1>                              
+      15 +                <span id="remainingBadge" class="remaining-badg
+         +e">0개 남음</span>                                             
+      16 +            </div>                                             
+      17 +            <button id="themeToggle" title="다크 모드 전환 (Alt
+         ++D)" aria-label="다크 모드 전환 (Alt+D)" aria-pressed="false"> 
+         +🌙</button>                                                    
+      18          </div>
+      15 -                                                               
+      16 -        <div class="dashboard">                                
+      19 +                                                               
+      20 +        <section class="dashboard" aria-label="진행률 대시보드"
+         +>                                                              
+      21              <div class="dashboard-header">
+      22                  <div>
+      23                      <div class="stat-label">전체 진행률</div>
+     ...
+      28                      <div class="stat-value" id="todayCount">0개
+          </div>
+      29                  </div>
+      30              </div>
+      27 -            <div class="progress-bar-bg"><div class="progress-b
+         -ar-fill" id="overallProgress"></div></div>                     
+      28 -                                                               
+      31 +            <div class="progress-bar-bg" role="progressbar" ari
+         +a-label="전체 진행률" aria-valuemin="0" aria-valuemax="100" ari
+         +a-valuenow="0"><div class="progress-bar-fill" id="overallProgre
+         +ss"></div></div>                                               
+      32 +            <!-- 완료율 응원 메시지 -->                        
+      33 +            <div id="cheerMessage" class="cheer-message"></div>
+      34 +                                                               
+      35              <div class="category-stats">
+      30 -                <div class="cat-stat work-stat"><div class="cat
+         --stat-header"><span>업무</span><span id="workText">0/0</span></
+         -div><div class="mini-progress-bg"><div class="mini-progress-fil
+         -l work-fill" id="workProgress"></div></div></div>              
+      31 -                <div class="cat-stat personal-stat"><div class=
+         -"cat-stat-header"><span>개인</span><span id="personalText">0/0<
+         -/span></div><div class="mini-progress-bg"><div class="mini-prog
+         -ress-fill personal-fill" id="personalProgress"></div></div></di
+         -v>                                                             
+      32 -                <div class="cat-stat study-stat"><div class="ca
+         -t-stat-header"><span>공부</span><span id="studyText">0/0</span>
+         -</div><div class="mini-progress-bg"><div class="mini-progress-f
+         -ill study-fill" id="studyProgress"></div></div></div>          
+      36 +                <div class="cat-stat work-stat"><div class="cat
+         +-stat-header"><span>업무</span><span id="workText">0/0</span></
+         +div><div class="mini-progress-bg" role="progressbar" aria-label
+         +="업무 진행률" aria-valuemin="0" aria-valuemax="100" aria-value
+         +now="0"><div class="mini-progress-fill work-fill" id="workProgr
+         +ess"></div></div></div>                                        
+      37 +                <div class="cat-stat personal-stat"><div class=
+         +"cat-stat-header"><span>개인</span><span id="personalText">0/0<
+         +/span></div><div class="mini-progress-bg" role="progressbar" ar
+         +ia-label="개인 진행률" aria-valuemin="0" aria-valuemax="100" ar
+         +ia-valuenow="0"><div class="mini-progress-fill personal-fill" i
+         +d="personalProgress"></div></div></div>                        
+      38 +                <div class="cat-stat study-stat"><div class="ca
+         +t-stat-header"><span>공부</span><span id="studyText">0/0</span>
+         +</div><div class="mini-progress-bg" role="progressbar" aria-lab
+         +el="공부 진행률" aria-valuemin="0" aria-valuemax="100" aria-val
+         +uenow="0"><div class="mini-progress-fill study-fill" id="studyP
+         +rogress"></div></div></div>                                    
+      39              </div>
+      40              <!-- 오늘의 격언 추가 -->
+      41              <div id="quoteContainer" class="quote-container"></
+          div>
+      36 -        </div>                                                 
+      42 +        </section>                                             
+      43 
+      44          <!-- 정렬 및 컨트롤 컨테이너 -->
+      45          <div class="controls-container">
+      40 -            <input type="text" id="searchInput" placeholder="할
+         - 일 검색... 🔍">                                               
+      41 -            <select id="sortSelect">                           
+      46 +            <input type="search" id="searchInput" placeholder="
+         +할 일 검색... 🔍" aria-label="할 일 검색 (ESC로 지우기)">      
+      47 +            <select id="sortSelect" aria-label="정렬 방식">    
+      48                  <option value="latest">최신순</option>
+      49                  <option value="oldest">오래된순</option>
+      50                  <option value="category">카테고리순</option>
+      51                  <option value="completed">완료순</option>
+      52 +                <option value="manual">직접 정렬 (드래그)</opti
+         +on>                                                            
+      53              </select>
+      54          </div>
+      55 
+      56          <!-- 데이터 관리 버튼들 -->
+      57          <div class="data-controls">
+      51 -            <button id="exportBtn" class="data-btn">⬇ 내보내기<
+         -/button>                                                       
+      52 -            <button id="importBtn" class="data-btn">⬆ 가져오기<
+         -/button>                                                       
+      53 -            <input type="file" id="importFile" accept=".json" s
+         -tyle="display: none;">                                         
+      58 +            <button id="exportBtn" class="data-btn" aria-label=
+         +"JSON 파일로 내보내기">⬇ 내보내기</button>                     
+      59 +            <button id="importBtn" class="data-btn" aria-label=
+         +"JSON 파일에서 가져오기">⬆ 가져오기</button>                   
+      60 +            <input type="file" id="importFile" accept=".json" s
+         +tyle="display: none;" aria-hidden="true" tabindex="-1">        
+      61              <button id="clearCompletedBtn" class="data-btn dang
+          er">완료 항목 삭제</button>
+      62          </div>
+      63 
+      57 -        <div class="filter-container">                         
+      58 -            <button class="filter-btn active" data-filter="all"
+         ->전체</button>                                                 
+      59 -            <button class="filter-btn" data-filter="work">업무<
+         -/button>                                                       
+      60 -            <button class="filter-btn" data-filter="personal"> 
+         -개인</button>                                                  
+      61 -            <button class="filter-btn" data-filter="study">공부
+         -</button>                                                      
+      64 +        <div class="filter-container" role="group" aria-label="
+         +카테고리 필터 (Alt+1~4)">                                      
+      65 +            <button class="filter-btn active" data-filter="all"
+         + aria-pressed="true">전체</button>                             
+      66 +            <button class="filter-btn" data-filter="work" aria-
+         +pressed="false">업무</button>                                  
+      67 +            <button class="filter-btn" data-filter="personal" a
+         +ria-pressed="false">개인</button>                              
+      68 +            <button class="filter-btn" data-filter="study" aria
+         +-pressed="false">공부</button>                                 
+      69          </div>
+      70 
+      71          <div class="input-container">
+      65 -            <select id="categorySelect">                       
+      72 +            <select id="categorySelect" aria-label="새 할 일 카
+         +테고리">                                                       
+      73                  <option value="work">업무</option>
+      74                  <option value="personal">개인</option>
+      75                  <option value="study">공부</option>
+      76              </select>
+      70 -            <input type="text" id="taskInput" placeholder="새로
+         -운 할 일을 입력하세요... (Alt+N)">                             
+      77 +            <input type="text" id="taskInput" placeholder="새로
+         +운 할 일을 입력하세요... (Alt+N)" aria-label="새로운 할 일 (Alt
+         ++N)" maxlength="200">                                          
+      78              <button id="addBtn">추가</button>
+      79          </div>
+      73 -        <ul id="taskList"></ul>                                
+      80 +        <ul id="taskList" aria-label="할 일 목록"></ul>        
+      81 +    </main>                                                    
+      82 +                                                               
+      83 +    <!-- 삭제 실행 취소 알림 -->                               
+      84 +    <div id="undoToast" class="undo-toast" hidden>             
+      85 +        <span id="undoText"></span>                            
+      86 +        <button id="undoBtn" type="button">실행 취소</button>  
+      87      </div>
+      88 +                                                               
+      89 +    <!-- 스크린 리더 안내 영역 -->                             
+      90 +    <div id="srStatus" class="sr-only" role="status" aria-live=
+         +"polite"></div>                                                
+      91 +                                                               
+      92      <script src="script.js"></script>
+      93  </body>
+      77 -</html>                                                        
+         \ No newline at end of file
+      94 +</html>                                                        
+
+● Next the CSS: hover effects, animations, mobile layout, focus outlines and the
+  new elements.
+
+● Bash({ echo '/* 작성일: 2026-11-25 01:51 (수정됨) */'; cat style.css; cat
+      <<'EOF'…)
+  ⎿  /* 작성일: 2026-11-25 01:51 (수정됨) */
+     * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, V
+     erdana, sans-serif; }
+     140 style.css
+  ⎿  Updated style.css +70
+      1 +/* 작성일: 2026-11-25 01:51 (수정됨) */                         
+      2  * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Gen
+         eva, Verdana, sans-serif; }
+      3  body { background-color: #6a5acd; display: flex; justify-content
+         : center; align-items: center; min-height: 100vh; margin: 0; tra
+         nsition: background-color 0.3s; padding: 20px; }
+      4  .app-container { background-color: white; width: 100%; max-width
+         : 600px; border-radius: 15px; padding: 30px; box-shadow: 0 10px
+         20px rgba(0,0,0,0.1); transition: background-color 0.3s, color 0
+         .3s; }
+     ...
+       69  body.dark-mode input, body.dark-mode select { background-color
+           : #444; color: #E0E0E0; border-color: #555; }
+       70  body.dark-mode .filter-btn:not(.active), body.dark-mode .data-
+           btn:not(.danger) { color: #aaa; border-color: #555; background
+           -color: transparent; }
+       71  body.dark-mode .quote-container { border-color: #555; color: #
+           999; }
+       72 +/* ===== Step 1: 호버 효과 ===== */                           
+       73 +li:not(.empty-message):hover { background-color: #f1effc; box-
+          +shadow: 0 2px 6px rgba(106, 90, 205, 0.12); }                 
+       74 +#addBtn:hover { background-color: #5848b8; }                  
+       75 +.filter-btn:not(.active):hover { border-color: #6a5acd; color:
+          + #6a5acd; }                                                   
+       76 +.delete-btn { transition: background-color 0.2s, transform 0.2
+          +s; }                                                          
+       77 +.delete-btn:hover { background-color: #ff4c4c; transform: scal
+          +e(1.1); }                                                     
+       78 +                                                              
+       79 +/* ===== Step 4: 남은 개수 배지 / Step 5: 응원 메시지 ===== */
+       80 +.title-group { display: flex; align-items: center; gap: 12px; 
+          +}                                                             
+       81 +.remaining-badge { background-color: #6a5acd; color: white; fo
+          +nt-size: 0.8rem; font-weight: bold; padding: 4px 10px; border-
+          +radius: 12px; white-space: nowrap; }                          
+       82 +.cheer-message { text-align: center; font-size: 0.9rem; font-w
+          +eight: bold; color: #6a5acd; margin: -10px 0 15px; }          
+       83 +                                                              
+       84 +/* ===== Step 3: 인라인 편집 (카테고리 변경 포함) ===== */    
+       85 +.task-content.editing { pointer-events: auto; flex-wrap: wrap;
+          + }                                                            
+       86 +.edit-mode-input { flex: 1 1 160px; padding: 6px 10px; border:
+          + 2px solid #6a5acd; border-radius: 6px; font-size: 1rem; outli
+          +ne: none; }                                                   
+       87 +.edit-category-select { padding: 6px 8px; border: 1px solid #d
+          +dd; border-radius: 6px; background: white; cursor: pointer; } 
+       88 +                                                              
+       89 +/* ===== Step 3: 애니메이션 ===== */                          
+       90 +@keyframes fadeIn { from { opacity: 0; transform: translateY(-
+          +8px); } to { opacity: 1; transform: translateY(0); } }        
+       91 +@keyframes fadeOut { from { opacity: 1; transform: translateX(
+          +0); } to { opacity: 0; transform: translateX(30px); } }       
+       92 +@keyframes slideComplete { from { opacity: 0.5; transform: tra
+          +nslateX(-20px); } to { opacity: 1; transform: translateX(0); }
+          + }                                                            
+       93 +li.fade-in { animation: fadeIn 0.3s ease; }                   
+       94 +li.fade-out { animation: fadeOut 0.3s ease forwards; pointer-e
+          +vents: none; }                                                
+       95 +li.slide-in { animation: slideComplete 0.4s ease; }           
+       96 +                                                              
+       97 +/* ===== Step 5: 접근성 ===== */                              
+       98 +:focus-visible { outline: 2px solid #6a5acd; outline-offset: 2
+          +px; }                                                         
+       99 +.task-text:focus-visible { border-radius: 4px; }              
+      100 +.sr-only { position: absolute; width: 1px; height: 1px; paddin
+          +g: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); 
+          +white-space: nowrap; border: 0; }                             
+      101 +                                                              
+      102 +/* ===== Step 5: 삭제 실행 취소 토스트 ===== */               
+      103 +.undo-toast { position: fixed; left: 50%; bottom: 24px; transf
+          +orm: translateX(-50%); display: flex; align-items: center; gap
+          +: 15px; background-color: #333; color: white; padding: 12px 18
+          +px; border-radius: 10px; box-shadow: 0 6px 16px rgba(0,0,0,0.2
+          +5); font-size: 0.9rem; z-index: 10; animation: fadeIn 0.3s eas
+          +e; max-width: calc(100% - 32px); }                            
+      104 +.undo-toast[hidden] { display: none; }                        
+     … +36 lines (ctrl+o to expand)
+
+● Checking the JS for syntax errors, then running it in a real browser.
+
+  Ran 1 shell command (ctrl+o to expand)
+
+● No Playwright here, so I'll test in headless Chrome with a test page that
+  drives the app (I put it in the scratchpad).
+
+  Ran 1 shell command (ctrl+o to expand)
+
+● The \n inside the test script got turned into real line breaks, which broke
+  the JS. I'm rebuilding the test file a different way.
+
+  Ran 1 shell command (ctrl+o to expand)
+
+● 21 of 22 tests pass. The one failure was a mistake in the test (it added items
+  without calling saveTasks()), not the app. I'll fix it, rerun, and take
+  screenshots to check the layout.
+
+  Read 2 files, ran 1 shell command (ctrl+o to expand)
+
+● Desktop screenshot looks fine, but headless Chrome won't shrink the window to
+  mobile width, so I'm retaking the mobile shot inside a 390px iframe. · summary
+
+  Read 1 file, ran 1 shell command (ctrl+o to expand)
+
+● The mobile layout works too. Last step: updating CLAUDE.md, since some of what
+  it says about the code is now out of date (array index vs. id, drag and drop,
+  storage keys).
+
+● Bash(python - <<'EOF'
+      p='CLAUDE.md'; s=open(p,encoding='utf-8').read()…)
+  ⎿   M index.html
+      M script.js
+      M style.css
+     ?? CLAUDE.md
+  ⎿  Updated CLAUDE.md +37 -35
+       1 -<!-- 작성일: 2026-11-25 01:49 -->                              
+       2 -# CLAUDE.md                                                    
+       3 -                                                               
+       4 -This file provides guidance to Claude Code (claude.ai/code) whe
+         -n working with code in this repository.                        
+       5 -                                                               
+       6 -# 개인용 할 일 관리 앱 (Personal To-Do App)                    
+       7 -백엔드 없이 브라우저 LocalStorage에 데이터를 저장하는 Vanilla J
+         -S(HTML/CSS/JS) To-Do 앱입니다. 상위 저장소(`VibeCoding`)의 `Stu
+         -dy-02` 하위 폴더이며, 빌드·린트·테스트 설정이나 패키지 의존성은
+         - 없습니다.                                                     
+       8 -                                                               
+       9 -## 실행                                                        
+      10 -- `index.html`을 브라우저(크롬, 엣지 등)로 직접 열면 실행됩니다
+         -. 수정 후에는 새로고침으로 확인합니다.                         
+      11 -- 저장 데이터를 초기화하려면 개발자 도구 콘솔에서 `localStorage
+         -.clear()`를 실행합니다.                                        
+      12 -                                                               
+      13 -## 구조                                                        
+      14 -- `index.html`: 모든 UI 요소가 정적으로 선언되어 있고, `script.
+         -js`가 `id`로 참조합니다.                                       
+      15 -- `script.js`: 전체 로직이 하나의 파일에 있으며 모듈/프레임워크
+         - 없이 전역 변수와 함수로 구성됩니다.                           
+      16 -- `style.css`: 라이트 스타일 + 하단의 `body.dark-mode` 오버라이
+         -드로 다크 모드를 구현합니다.                                   
+      17 -- `README_old.md`는 `README.md`와 거의 동일한 이전 버전입니다. 
+      18 -                                                               
+      19 -## 핵심 동작 방식 (`script.js`)                                
+      20 -- **단일 상태 + 전체 재렌더링:** 전역 `tasks` 배열이 유일한 진 
+         -실 공급원입니다. 모든 변경은 `tasks` 수정 → `saveTasks()` → `re
+         -nderTasks()` 순서를 따르며, `renderTasks()`는 목록을 매번 비우 
+         -고 다시 그린 뒤 `updateDashboard()`까지 호출합니다.            
+      21 -- **표시 목록 vs 원본 인덱스:** `renderTasks()`는 필터·검색·정 
+         -렬을 적용한 복사본(`displayTasks`)을 그리므로, 각 항목의 이벤트
+         - 핸들러는 `tasks.indexOf(task)`로 구한 `originalIndex`를 사용해
+         -야 합니다. 화면상의 순서 인덱스를 쓰면 엉뚱한 항목이 수정됩니다
+         -.                                                              
+      22 -- **할 일 객체 형태:** `{ text, completed, category, createdAt(
+         -ISO 문자열) }`.                                                
+      23 -- **LocalStorage 키:** `tasks`, `isDarkMode`, `currentSort`. 현
+         -재 필터(`currentFilter`)는 저장되지 않습니다.                  
+      24 -- **드래그 앤 드롭:** `tasks` 배열 자체의 순서를 바꾸지만, 렌더
+         -링 시 항상 `currentSort` 정렬이 적용되므로 화면 순서에는 반영되
+         -지 않을 수 있습니다.                                           
+      25 -- **내보내기/가져오기:** 내보내기 JSON은 `{ tasks, settings, me
+         -tadata }` 구조이며, 가져오기는 `data.tasks`만 읽어 현재 데이터 
+         -를 덮어씁니다.                                                 
+      26 -                                                               
+      27 -## 카테고리 추가/변경 시 함께 수정할 곳                        
+      28 -카테고리(`work`/`personal`/`study`)는 여러 곳에 하드코딩되어 있
+         -습니다.                                                        
+      29 -- `script.js`: `categoryNames`, `updateDashboard()`의 카테고리 
+         -배열, `Alt+1~4` 단축키 매핑                                    
+      30 -- `index.html`: `#categorySelect` 옵션, `.filter-btn[data-filte
+         -r]`, 대시보드의 `{cat}Text` / `{cat}Progress` 요소             
+      31 -- `style.css`: `.tag-{cat}`, `.{cat}-fill`, `.{cat}-stat` 색상 
+         -클래스                                                         
+      32 -                                                               
+      33 -## 작업 규칙                                                   
+      34 -- 새로 만드는 파일 첫 줄에 작성 날짜·시간 주석을 넣습니다(예: `
+         -<!-- 작성일: 2026-11-25 01:49 -->`, JS/CSS는 `/* 작성일: ... */
+         -`). 기존 파일을 수정하면 `(수정됨)`을 붙여 시각을 갱신합니다. J
+         -SON 등 주석을 지원하지 않는 형식은 예외입니다.                 
+      35 -- UI 문구는 한국어로 작성합니다.                               
+       1 +<!-- 작성일: 2026-11-25 01:51 (수정됨) -->                     
+       2 +# CLAUDE.md                                                    
+       3 +                                                               
+       4 +This file provides guidance to Claude Code (claude.ai/code) whe
+         +n working with code in this repository.                        
+       5 +                                                               
+     … +32 lines (ctrl+o to expand)
+
+● Two lines in CLAUDE.md came out wrong: the date example in the rules section
+  was changed too, and a reference to the category list is out of date. Fixing
+  both.
+● Bash(sed -i -e 's/(예: `<!-- 작성일: 2026-11-25 01:51 (수정됨) -->`,/(예:
+      `<!-- 작성일: 2026-11-25 01:51 -->`,/' -e 's/`categoryNames`,
+      `updateDashboard()`의 카테고리 배열, `CATEGORIE…)
+  ⎿  - `script.js`: `CATEGORIES`, `categoryNames`, `Alt+1~4` 단축키 매핑(`f
+     ilterKeys`)
+     - 새로 만드는 파일 첫 줄에 작성 날짜·시간 주석을 넣습니다(예: `<!-- 작
+     … +3 lines (ctrl+o to expand)
+  ⎿  Updated CLAUDE.md +37 -37
+       1 -<!-- 작성일: 2026-11-25 01:51 (수정됨) -->                     
+       2 -# CLAUDE.md                                                    
+       3 -                                                               
+       4 -This file provides guidance to Claude Code (claude.ai/code) whe
+         -n working with code in this repository.                        
+       5 -                                                               
+       6 -# 개인용 할 일 관리 앱 (Personal To-Do App)                    
+       7 -백엔드 없이 브라우저 LocalStorage에 데이터를 저장하는 Vanilla J
+         -S(HTML/CSS/JS) To-Do 앱입니다. 상위 저장소(`VibeCoding`)의 `Stu
+         -dy-02` 하위 폴더이며, 빌드·린트·테스트 설정이나 패키지 의존성은
+         - 없습니다.                                                     
+       8 -                                                               
+       9 -## 실행                                                        
+      10 -- `index.html`을 브라우저(크롬, 엣지 등)로 직접 열면 실행됩니다
+         -. 수정 후에는 새로고침으로 확인합니다.                         
+      11 -- 저장 데이터를 초기화하려면 개발자 도구 콘솔에서 `localStorage
+         -.clear()`를 실행합니다.                                        
+      12 -                                                               
+      13 -## 구조                                                        
+      14 -- `index.html`: 모든 UI 요소가 정적으로 선언되어 있고, `script.
+         -js`가 `id`로 참조합니다.                                       
+      15 -- `script.js`: 전체 로직이 하나의 파일에 있으며 모듈/프레임워크
+         - 없이 전역 변수와 함수로 구성됩니다.                           
+      16 -- `style.css`: 라이트 스타일 + 하단의 `body.dark-mode` 오버라이
+         -드로 다크 모드를 구현합니다.                                   
+      17 -- `README_old.md`는 `README.md`와 거의 동일한 이전 버전입니다. 
+      18 -                                                               
+      19 -## 핵심 동작 방식 (`script.js`)                                
+      20 -- **단일 상태 + 전체 재렌더링:** 전역 `tasks` 배열이 유일한 진 
+         -실 공급원입니다. 모든 변경은 `tasks` 수정 → `saveTasks()` → `re
+         -nderTasks()` 순서를 따르며, `renderTasks()`는 목록을 DocumentFr
+         -agment로 다시 그린 뒤 `updateDashboard()`까지 호출합니다.      
+      21 -- **저장은 디바운싱됨:** `saveTasks()`는 300ms 뒤에 저장하고, `
+         -persistTasks()`는 즉시 저장합니다(페이지 이탈·가져오기 시 사용)
+         -. 검색 입력도 디바운싱됩니다.                                  
+      22 -- **항목 식별은 `id`로:** 화면 목록은 필터·검색·정렬이 적용된  
+         -복사본이므로 핸들러는 배열 인덱스가 아닌 `task.id`(`findTask(id
+         -)`, `li[data-id]`)로 항목을 찾습니다. 렌더링 후 포커스 복원은 `
+         -focusTaskControl(id, selector)`를 씁니다.                      
+      23 -- **할 일 객체 형태:** `{ id, text, completed, category, create
+         -dAt(ISO 문자열) }`. 저장소/가져오기 데이터는 `normalizeTasks()`
+         -를 거쳐 id 부여·잘못된 항목 제거가 됩니다.                     
+      24 -- **LocalStorage 키:** `tasks`, `isDarkMode`, `currentSort`, `c
+         -urrentFilter`.                                                 
+      25 -- **정렬:** `getSortedTasks()`는 완료 항목을 항상 아래로 보낸  
+         -뒤 `currentSort`를 적용합니다. `manual`(직접 정렬)은 배열 순서 
+         -를 그대로 쓰며, 드래그 앤 드롭(`moveTask`) 시 현재 보이는 순서 
+         -를 배열에 반영하고 자동으로 `manual`로 전환합니다.             
+      26 -- **삭제 실행 취소:** 삭제·완료 항목 일괄 삭제 시 `{ task, inde
+         -x }` 목록을 `undoState`에 보관하고 5초간 토스트(또는 Ctrl+Z)로 
+         -복원할 수 있습니다.                                            
+      27 -- **내보내기/가져오기:** 내보내기 JSON은 `{ tasks, settings, me
+         -tadata }` 구조이며, 가져오기는 `data.tasks`만 읽어 현재 데이터 
+         -를 덮어씁니다.                                                 
+      28 -                                                               
+      29 -## 카테고리 추가/변경 시 함께 수정할 곳                        
+      30 -카테고리(`work`/`personal`/`study`)는 여러 곳에 하드코딩되어 있
+         -습니다.                                                        
+      31 -- `script.js`: `categoryNames`, `updateDashboard()`의 카테고리 
+         -배열, `CATEGORIES`, `Alt+1~4` 단축키 매핑(`filterKeys`)        
+      32 -- `index.html`: `#categorySelect` 옵션, `.filter-btn[data-filte
+         -r]`, 대시보드의 `{cat}Text` / `{cat}Progress` 요소             
+      33 -- `style.css`: `.tag-{cat}`, `.{cat}-fill`, `.{cat}-stat` 색상 
+         -클래스                                                         
+      34 -                                                               
+      35 -## 작업 규칙                                                   
+      36 -- 새로 만드는 파일 첫 줄에 작성 날짜·시간 주석을 넣습니다(예: `
+         -<!-- 작성일: 2026-11-25 01:51 (수정됨) -->`, JS/CSS는 `/* 작성 
+         -일: ... */`). 기존 파일을 수정하면 `(수정됨)`을 붙여 시각을 갱 
+         -신합니다. JSON 등 주석을 지원하지 않는 형식은 예외입니다.      
+      37 -- UI 문구는 한국어로 작성합니다.                               
+       1 +<!-- 작성일: 2026-11-25 01:51 (수정됨) -->                     
+       2 +# CLAUDE.md                                                    
+       3 +                                                               
+     … +34 lines (ctrl+o to expand)
+
+● I added everything marked "partial" or "missing" in the table above, and all
+  existing features still work. In headless Chrome, 22 automated tests pass and
+  both the desktop and 480px mobile layouts render correctly. I haven't checked
+  it by hand, so please open it in a browser and try it yourself.
+
+  What I added
+
+  Step: 1
+  Added: id on every task (old saved tasks get one automatically on load);
+    hover on task items, add button, filter buttons and delete buttons
+  ────────────────────────────────────────
+  Step: 2
+  Added: Times shown as "N시간 전 / N일 전"; the selected filter is saved;
+    completed tasks always move to the bottom
+  ────────────────────────────────────────
+  Step: 3
+  Added: Category dropdown in inline edit (this also fixes the edit box not
+    responding to clicks); fade in on add, fade out on delete, slide on
+    complete
+  ────────────────────────────────────────
+  Step: 4
+  Added: "N개 남음" badge; Alt+D dark mode; mobile layout at 480px and below
+    with 44px touch-friendly buttons
+  ────────────────────────────────────────
+  Step: 5
+  Added: Backup prompt before import; new "직접 정렬 (드래그)" sort option,
+    chosen automatically when you drag; 250ms search delay and 300ms save
+    delay, with any pending save written before the page closes; list built in
+    one batch, so 150+ items still render smoothly
+  ────────────────────────────────────────
+  Step: 5
+  Added: ARIA labels, screen-reader announcements and focus restored after
+    actions; Enter/F2 on a task starts editing
+  ────────────────────────────────────────
+  Step: 5
+  Added: Duplicate warning; 5-second undo for deletes (toast or Ctrl+Z);
+    completion cheer message; safer error handling for storage, imports and
+    broken files; section comments
+
+  Behaviour changes
+  - Completed tasks always sit at the bottom. This now applies under every sort,
+    so the "완료순" option shows almost the same order as "최신순".
+  - Pressing Enter mid-word in Korean no longer adds the task. Previously,
+    pressing Enter while a Korean character was still being typed could add it.
+
+  Files changed
+  - script.js (rewritten), index.html and style.css. Each now has a (수정됨)
+    date comment on the first line.
+  - I also updated CLAUDE.md, because what it said about the code no longer
+    matched (array index vs. id, drag and drop, storage keys).
+
+  Nothing is committed yet.
+
+✻ Brewed for 5m 15s · done 오전 1:55
+
+> 현재 할 일 관리 앱에 키워드 기반 자동 카테고리 분류 기능을 추가해 줘.         
+
+● I'll add a keyword list for each category. While you type a new task, it picks
+  the category automatically, and picking one yourself turns that off. Checking
+  the time for the date comments first:
+
+  Ran 2 shell commands · 1 failed (ctrl+o to expand)
+
+● Bash misread the inline script, so I'll save it as a Python file in the
+  scratchpad and run it from there.
+
+  Ran 1 shell command (ctrl+o to expand)
+
+● The script never ran, so nothing was half-applied. I'll make the changes with
+  the Edit tool instead.
+
+● Update(script.js)
+  ⎿  Added 17 lines
+      32  // ===== 상수 =====
+      33  const CATEGORIES = ['work', 'personal', 'study'];
+      34  const categoryNames = { work: '업무', personal: '개인', study:
+          '공부' };
+      35 +                                                               
+      36 +/**                                                            
+      37 + * 키워드 기반 자동 분류 사전 (소문자로 비교).                 
+      38 + * 너무 짧아 다른 단어에 섞이기 쉬운 키워드(예: '약' → '계약', 
+         +'책' → '책임')는 피한다.                                       
+      39 + */                                                            
+      40 +const CATEGORY_KEYWORDS = {                                    
+      41 +    work: ['회의', '미팅', '보고서', '보고', '업무', '출근', ' 
+         +퇴근', '프로젝트', '기획', '발표', '메일', '결재',             
+      42 +        '거래처', '고객', '계약', '마감', '팀장', '부장', '상사
+         +', '야근', '출장', '견적', 'ppt', '제안서',                    
+      43 +        '회사', '면접', '인수인계', '정산', '세미나', '클라이언
+         +트', '협업'],                                                  
+      44 +    personal: ['운동', '헬스', '요가', '산책', '러닝', '장보기'
+         +, '마트', '쇼핑', '청소', '빨래', '설거지',                    
+      45 +        '병원', '약국', '치과', '은행', '약속', '친구', '가족',
+         + '엄마', '아빠', '생일', '선물', '여행',                       
+      46 +        '영화', '요리', '택배', '미용실', '데이트', '이사', '세
+         +탁', '분리수거', '예약', '휴가', '취미'],                      
+      47 +    study: ['공부', '시험', '과제', '숙제', '강의', '수업', '복
+         +습', '예습', '독서', '책 읽기', '레포트',                      
+      48 +        '리포트', '논문', '자격증', '토익', '토플', '영어', '단
+         +어', '문제집', '학원', '코딩', '프로그래밍',                   
+      49 +        '알고리즘', '자바스크립트', 'javascript', '파이썬', 'py
+         +thon', '중간고사', '기말고사', '스터디',                       
+      50 +        '인강', '퀴즈', '발제', '실습', '전공']                
+      51 +};                                                             
+      52  const FILTERS = ['all', ...CATEGORIES];
+      53  const SORTS = ['latest', 'oldest', 'category', 'completed', 'ma
+          nual'];
+      54  const SEARCH_DEBOUNCE_MS = 250;
+
+● Update(script.js)
+  ⎿  Added 52 lines
+      130      if (target) target.focus();
+      131  }
+      132 
+      133 +// ===== 키워드 기반 자동 카테고리 분류 =====                 
+      134 +                                                              
+      135 +/**                                                           
+      136 + * 텍스트에 포함된 키워드로 카테고리를 추정한다.              
+      137 + * 점수 = 일치한 키워드 길이의 합(길수록 구체적인 키워드로 본 
+          +다).                                                          
+      138 + * 일치가 없거나 최고 점수가 동점이면 null을 돌려준다.        
+      139 + */                                                           
+      140 +function classifyTask(text) {                                 
+      141 +    const lower = text.toLowerCase();                         
+      142 +    let best = null;                                          
+      143 +    for (const cat of CATEGORIES) {                           
+      144 +        const keywords = CATEGORY_KEYWORDS[cat].filter(k => lo
+          +wer.includes(k));                                             
+      145 +        const score = keywords.reduce((sum, k) => sum + k.leng
+          +th, 0);                                                       
+      146 +        if (score === 0) continue;                            
+      147 +        if (!best || score > best.score) best = { category: ca
+          +t, keywords, score, tie: false };                             
+      148 +        else if (score === best.score) best.tie = true;       
+      149 +    }                                                         
+      150 +    return best && !best.tie ? best : null;                   
+      151 +}                                                             
+      152 +                                                              
+      153 +function showAutoHint(message, type) {                        
+      154 +    autoCategoryHint.textContent = message;                   
+      155 +    autoCategoryHint.className = `auto-category-hint${type ? `
+          + ${type}` : ''}`;                                             
+      156 +}                                                             
+      157 +                                                              
+      158 +/** 새 할 일 입력에 맞춰 카테고리 드롭다운을 자동으로 고른다( 
+          +사용자가 직접 고르면 중단). */                                
+      159 +function applyAutoCategory() {                                
+      160 +    const text = taskInput.value.trim();                      
+      161 +    if (!text) {                                              
+      162 +        categoryManuallySet = false; // 입력을 비우면 자동 분 
+          +류 다시 켜기                                                  
+      163 +        showAutoHint('');                                     
+      164 +        return;                                               
+      165 +    }                                                         
+      166 +    if (categoryManuallySet) {                                
+      167 +        showAutoHint(`✋ 직접 선택한 카테고리(${categoryNames[
+          +categorySelect.value]})를 사용합니다`, 'manual');             
+      168 +        return;                                               
+      169 +    }                                                         
+      170 +    const result = classifyTask(text);                        
+      171 +    if (!result) {                                            
+      172 +        showAutoHint('');                                     
+      173 +        return;                                               
+      174 +    }                                                         
+      175 +    if (categorySelect.value !== result.category) {           
+      176 +        categorySelect.value = result.category;               
+      177 +        categorySelect.classList.remove('auto-selected');     
+      178 +        void categorySelect.offsetWidth; // 강조 애니메이션 다
+          +시 시작                                                       
+      179 +        categorySelect.classList.add('auto-selected');        
+      180 +    }                                                         
+      181 +    const shown = result.keywords.slice(0, 3).map(k => `'${k}'
+          +`).join(', ');                                                
+      182 +    showAutoHint(`🤖 자동 분류: ${categoryNames[result.categor
+          +y]} (키워드 ${shown})`, `auto tag-text-${result.category}`);  
+      183 +}                                                             
+      184 +                                                              
+      185  // ===== 상태 =====
+      186  let tasks = normalizeTasks(loadJSON('tasks', []));
+      187  let currentFilter = FILTERS.includes(localStorage.getItem('cur
+           rentFilter')) ? localStorage.getItem('currentFilter') : 'all';
+
+● Update(script.js)
+  ⎿  Added 1 line
+      28  const undoToast = document.getElementById('undoToast');
+      29  const undoText = document.getElementById('undoText');
+      30  const undoBtn = document.getElementById('undoBtn');
+      31 +const autoCategoryHint = document.getElementById('autoCategoryH
+         +int');                                                         
+      32 
+      33  // ===== 상수 =====
+      34  const CATEGORIES = ['work', 'personal', 'study'];
+
+● Update(script.js)
+  ⎿  Added 1 line
+      193  let undoState = null;     // [{ task, index }] 삭제 취소용
+      194  let undoTimer = null;
+      195  let saveTimer = null;
+      196 +let categoryManuallySet = false; // 사용자가 카테고리를 직접  
+          +골랐는지 (자동 분류 중단)                                     
+      197 
+      198  // ===== 저장 (디바운싱) =====
+      199  function persistTasks() {
+
+● Update(script.js)
+  ⎿  Added 6 lines
+      419          return;
+      420      }
+      421 
+      422 +    // 입력 이벤트 없이 값이 바뀐 경우(자동완성 등)를 대비해  
+          +한 번 더 분류                                                 
+      423 +    const auto = categoryManuallySet ? null : classifyTask(tex
+          +t);                                                           
+      424 +    if (auto) categorySelect.value = auto.category;           
+      425 +                                                              
+      426      const task = { id: generateId(), text, completed: false, c
+           ategory: categorySelect.value, createdAt: new Date().toISOStri
+           ng() };
+      427      tasks.push(task);
+      428      animateId = task.id;
+      429      animateType = 'add';
+      430      taskInput.value = '';
+      431 +    categoryManuallySet = false;                              
+      432 +    showAutoHint('');                                         
+      433      saveTasks();
+      434      renderTasks();
+      435 
+
+● Update(script.js)
+  ⎿  Added 1 line, removed 1 line
+      434      renderTasks();
+      435 
+      436      const hidden = currentFilter !== 'all' && currentFilter !=
+           = task.category;
+      437 -    announce(`"${text}"을(를) ${categoryNames[task.category]} 
+          -에 추가했습니다.${hidden ? ' 현재 필터에서는 보이지 않습니다.'
+          - : ''}`);                                                     
+      437 +    announce(`"${text}"을(를) ${categoryNames[task.category]} 
+          +에 ${auto ? '자동 분류해 ' : ''}추가했습니다.${hidden ? ' 현재
+          + 필터에서는 보이지 않습니다.' : ''}`);                        
+      438      taskInput.focus();
+      439  }
+      440 
+
+● Update(script.js)
+  ⎿  Added 8 lines
+      512      CATEGORIES.forEach(cat => editCategory.add(new Option(cate
+           goryNames[cat], cat)));
+      513      editCategory.value = task.category;
+      514 
+      515 +    // 편집 중에도 카테고리를 직접 바꾸지 않았다면 키워드로 자
+          +동 분류                                                       
+      516 +    let editCategoryTouched = false;                          
+      517 +    editCategory.addEventListener('change', () => { editCatego
+          +ryTouched = true; });                                         
+      518 +    editInput.addEventListener('input', () => {               
+      519 +        const result = !editCategoryTouched && classifyTask(ed
+          +itInput.value);                                               
+      520 +        if (result) editCategory.value = result.category;     
+      521 +    });                                                       
+      522 +                                                              
+      523      const saveEdit = () => {
+      524          const target = findTask(task.id);
+      525          if (target) {
+
+● Update(script.js)
+  ⎿  Added 5 lines
+      668 
+      669  // ===== 입력 / 검색 =====
+      670  addBtn.addEventListener('click', addTask);
+      671 +taskInput.addEventListener('input', applyAutoCategory);       
+      672 +categorySelect.addEventListener('change', () => {             
+      673 +    categoryManuallySet = true;                               
+      674 +    if (taskInput.value.trim()) applyAutoCategory();          
+      675 +});                                                           
+      676  taskInput.addEventListener('keydown', (e) => {
+      677      if (e.key === 'Enter' && !e.isComposing) addTask(); // 한
+           글 조합 중 Enter는 무시
+      678  });
+
+● Update(script.js)
+  ⎿  Added 1 line, removed 1 line
+      1 -/* 작성일: 2026-11-25 01:51 (수정됨) */                         
+      1 +/* 작성일: 2026-11-25 01:57 (수정됨) */                         
+      2  /**
+      3   * My Tasks - 개인용 할 일 관리 앱
+      4   *
+
+● Next the HTML and CSS.
+
+● Update(index.html)
+  ⎿  Added 2 lines
+      77              <input type="text" id="taskInput" placeholder="새로
+          운 할 일을 입력하세요... (Alt+N)" aria-label="새로운 할 일 (Alt
+          +N)" maxlength="200">
+      78              <button id="addBtn">추가</button>
+      79          </div>
+      80 +        <!-- 키워드 기반 자동 카테고리 분류 안내 -->           
+      81 +        <div id="autoCategoryHint" class="auto-category-hint" a
+         +ria-live="polite"></div>                                       
+      82          <ul id="taskList" aria-label="할 일 목록"></ul>
+      83      </main>
+      84 
+
+● Update(index.html)
+  ⎿  Added 1 line, removed 1 line
+      1 -<!-- 작성일: 2026-11-25 01:51 (수정됨) -->                      
+      1 +<!-- 작성일: 2026-11-25 01:57 (수정됨) -->                      
+      2  <!DOCTYPE html>
+      3  <html lang="ko">
+      4  <head>
+
+● Update(index.html)
+  ⎿  Added 1 line, removed 1 line
+      74                  <option value="personal">개인</option>
+      75                  <option value="study">공부</option>
+      76              </select>
+      77 -            <input type="text" id="taskInput" placeholder="새로
+         -운 할 일을 입력하세요... (Alt+N)" aria-label="새로운 할 일 (Alt
+         -+N)" maxlength="200">                                          
+      77 +            <input type="text" id="taskInput" placeholder="새  
+         +할 일 입력 시 카테고리 자동 분류 (Alt+N)" aria-label="새로운 할
+         + 일 (Alt+N)" maxlength="200">                                  
+      78              <button id="addBtn">추가</button>
+      79          </div>
+      80          <!-- 키워드 기반 자동 카테고리 분류 안내 -->
+
+● Update(style.css)
+  ⎿  Added 9 lines
+       86  .edit-mode-input { flex: 1 1 160px; padding: 6px 10px; border:
+            2px solid #6a5acd; border-radius: 6px; font-size: 1rem; outli
+           ne: none; }
+       87  .edit-category-select { padding: 6px 8px; border: 1px solid #d
+           dd; border-radius: 6px; background: white; cursor: pointer; }
+       88 
+       89 +/* ===== 키워드 기반 자동 카테고리 분류 ===== */              
+       90 +.auto-category-hint { min-height: 1.3em; margin: -22px 0 14px;
+          + font-size: 0.85rem; font-weight: bold; color: #888; }        
+       91 +.auto-category-hint.tag-text-work { color: #4A90E2; }         
+       92 +.auto-category-hint.tag-text-personal { color: #27AE60; }     
+       93 +.auto-category-hint.tag-text-study { color: #8E44AD; }        
+       94 +.auto-category-hint.manual { color: #999; font-weight: normal;
+          + }                                                            
+       95 +@keyframes autoSelected { from { box-shadow: 0 0 0 3px rgba(10
+          +6, 90, 205, 0.5); } to { box-shadow: 0 0 0 0 rgba(106, 90, 205
+          +, 0); } }                                                     
+       96 +#categorySelect.auto-selected { animation: autoSelected 0.8s e
+          +ase; border-color: #6a5acd; }                                 
+       97 +                                                              
+       98  /* ===== Step 3: 애니메이션 ===== */
+       99  @keyframes fadeIn { from { opacity: 0; transform: translateY(-
+           8px); } to { opacity: 1; transform: translateY(0); } }
+      100  @keyframes fadeOut { from { opacity: 1; transform: translateX(
+           0); } to { opacity: 0; transform: translateX(30px); } }
+
+● Update(style.css)
+  ⎿  Added 3 lines
+      121  body.dark-mode .undo-toast { background-color: #E0E0E0; color:
+            #1A1A1A; }
+      122  body.dark-mode #undoBtn { border-color: #6a5acd; color: #6a5ac
+           d; }
+      123  body.dark-mode .empty-message { color: #888; }
+      124 +body.dark-mode .auto-category-hint.tag-text-work { color: #7AB
+          +3F0; }                                                        
+      125 +body.dark-mode .auto-category-hint.tag-text-personal { color: 
+          +#5FD08F; }                                                    
+      126 +body.dark-mode .auto-category-hint.tag-text-study { color: #C0
+          +8BDB; }                                                       
+      127 
+      128  /* ===== Step 4: 모바일 최적화 (480px 이하) + 터치 친화 버튼 =
+           ==== */
+      129  @media (max-width: 480px) {
+
+● Update(style.css)  ⎿  Added 1 line
+      138      .input-container { flex-wrap: wrap; }
+      139      #taskInput { flex-basis: 100%; order: -1; }
+      140      #categorySelect, #addBtn { flex: 1; }
+      141 +    .auto-category-hint { margin: -18px 0 12px; }             
+      142      #searchInput, #sortSelect, #categorySelect, #addBtn, .filt
+           er-btn, .data-btn { min-height: 44px; font-size: 1rem; }
+      143      li { padding: 12px; flex-wrap: wrap; }
+      144      li input[type="checkbox"] { width: 24px; height: 24px; mar
+           gin-right: 12px; }
+
+● Update(style.css)
+  ⎿  Added 1 line, removed 1 line
+      1 -/* 작성일: 2026-11-25 01:51 (수정됨) */                         
+      1 +/* 작성일: 2026-11-25 01:57 (수정됨) */                         
+      2  * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Gen
+         eva, Verdana, sans-serif; }
+      3  body { background-color: #6a5acd; display: flex; justify-content
+         : center; align-items: center; min-height: 100vh; margin: 0; tra
+         nsition: background-color 0.3s; padding: 20px; }
+      4  .app-container { background-color: white; width: 100%; max-width
+         : 600px; border-radius: 15px; padding: 30px; box-shadow: 0 10px
+         20px rgba(0,0,0,0.1); transition: background-color 0.3s, color 0
+         .3s; }
+
+● Next, the auto-classification tests in headless Chrome, using the same
+  approach as before.
+
+  Ran 1 shell command (ctrl+o to expand)
+
+● All 17 tests pass. I'll rerun the earlier 22 against the new code and take a
+  screenshot of the hint.
+
+  Read 1 file, ran 1 shell command (ctrl+o to expand)
+
+● The dropdown now shows "공부", but the hint text is missing because the
+  screenshot page was built from the old index.html. I'm rebuilding it from the
+  current file. · summary
+
+  Read 1 file, ran 1 shell command (ctrl+o to expand)
+
+● It displays correctly. Last step: adding the auto-classification to CLAUDE.md.
+
+● Bash(sed -i \
+       -e '1s/01:51 (수정됨)/01:57 (수정됨)/' \…)
+  ⎿  1:<!-- 작성일: 2026-11-25 01:57 (수정됨) -->
+     27:- **키워드 자동 분류:** `classifyTask(text)`가
+     `CATEGORY_KEYWORDS`와
+     … +4 lines (ctrl+o to expand)
+  ⎿  Updated CLAUDE.md +4 -3
+      1 -<!-- 작성일: 2026-11-25 01:51 (수정됨) -->                      
+      1 +<!-- 작성일: 2026-11-25 01:57 (수정됨) -->                      
+      2  # CLAUDE.md
+      3 
+      4  This file provides guidance to Claude Code (claude.ai/code) when
+          working with code in this repository.
+     ...
+      24  - **LocalStorage 키:** `tasks`, `isDarkMode`, `currentSort`, `c
+          urrentFilter`.
+      25  - **정렬:** `getSortedTasks()`는 완료 항목을 항상 아래로 보낸
+          뒤 `currentSort`를 적용합니다. `manual`(직접 정렬)은 배열 순서
+          를 그대로 쓰며, 드래그 앤 드롭(`moveTask`) 시 현재 보이는 순서
+          를 배열에 반영하고 자동으로 `manual`로 전환합니다.
+      26  - **삭제 실행 취소:** 삭제·완료 항목 일괄 삭제 시 `{ task, inde
+          x }` 목록을 `undoState`에 보관하고 5초간 토스트(또는 Ctrl+Z)로
+          복원할 수 있습니다.
+      27 +- **키워드 자동 분류:** `classifyTask(text)`가 `CATEGORY_KEYWOR
+         +DS`와 비교해 일치한 키워드 길이 합이 가장 큰 카테고리를 고릅니 
+         +다(동점·불일치는 null). 새 할 일 입력 시 `applyAutoCategory()` 
+         +가 드롭다운을 바꾸고, 사용자가 드롭다운을 직접 바꾸면 `category
+         +ManuallySet`으로 입력을 비우거나 추가할 때까지 자동 분류를 멈춥
+         +니다. 인라인 편집에도 같은 규칙이 적용됩니다. 키워드는 다른 단 
+         +어에 섞이기 쉬운 짧은 단어(예: `약`→`계약`)를 피합니다.        
+      28  - **내보내기/가져오기:** 내보내기 JSON은 `{ tasks, settings, me
+          tadata }` 구조이며, 가져오기는 `data.tasks`만 읽어 현재 데이터
+          를 덮어씁니다.
+      29 
+      30  ## 카테고리 추가/변경 시 함께 수정할 곳
+      31  카테고리(`work`/`personal`/`study`)는 여러 곳에 하드코딩되어 있
+          습니다.
+      31 -- `script.js`: `CATEGORIES`, `categoryNames`, `Alt+1~4` 단축키 
+         -매핑(`filterKeys`)                                             
+      32 +- `script.js`: `CATEGORIES`, `categoryNames`, `CATEGORY_KEYWORD
+         +S`, `Alt+1~4` 단축키 매핑(`filterKeys`)                        
+      33  - `index.html`: `#categorySelect` 옵션, `.filter-btn[data-filte
+          r]`, 대시보드의 `{cat}Text` / `{cat}Progress` 요소
+      33 -- `style.css`: `.tag-{cat}`, `.{cat}-fill`, `.{cat}-stat` 색상 
+         -클래스                                                         
+      34 +- `style.css`: `.tag-{cat}`, `.{cat}-fill`, `.{cat}-stat`, `.au
+         +to-category-hint.tag-text-{cat}` 색상 클래스                   
+      35 
+      36  ## 작업 규칙
+      37  - 새로 만드는 파일 첫 줄에 작성 날짜·시간 주석을 넣습니다(예: `
+          <!-- 작성일: 2026-11-25 01:51 -->`, JS/CSS는 `/* 작성일: ... */
+          `). 기존 파일을 수정하면 `(수정됨)`을 붙여 시각을 갱신합니다. J
+          SON 등 주석을 지원하지 않는 형식은 예외입니다.
+
+● I added keyword-based auto categorization. When you type a new task, the
+  category dropdown changes automatically based on the words in it. In headless
+  Chrome, 17 new tests and the 22 existing ones all pass, and a screenshot
+  showed the hint on screen. Please try it in a real browser yourself too.
+
+  How it works
+  - Keyword lists: each category has its own list in script.js
+    (CATEGORY_KEYWORDS):
+    - Work: 회의, 보고서, 팀장, 계약, 마감 …
+    - Personal: 운동, 병원, 장보기, 생일, 예약 …
+    - Study: 시험, 과제, 토익, 코딩, 파이썬 …
+  - While you type: the dropdown switches to the matching category with a brief
+    highlight. A line below the input shows which keywords decided it, e.g. "🤖
+    자동 분류: 공부 (키워드 '복습', '알고리즘', '기말고사')".
+  - When keywords from two categories match: the category whose matched keywords
+    are longer in total wins (longer words are treated as more specific). An
+    exact tie, like "회의 끝나고 운동", or no match at all leaves the current
+    choice unchanged.
+  - Choosing a category yourself takes priority: if you change the dropdown,
+    auto categorization pauses and the hint reads "✋ 직접 선택한 카테고리를
+    사용합니다". It switches back on once you add the task or clear the input.
+  - Editing an existing task: double-click editing follows the same rules, as
+    long as you haven't touched the category dropdown during that edit.
+  - Avoiding wrong matches: keywords are matched as parts of words, so I left
+    out very short ones that hide inside other words. For example, "약" would
+    also match "계약" (contract), so I used "약국" (pharmacy) instead.
+
+  Files changed: script.js, index.html, style.css and CLAUDE.md. I updated each
+  file's date comment to 01:57. To add or change keywords, edit the
+  CATEGORY_KEYWORDS lists at the top of script.js.
+
+  Nothing is committed yet.
+
+✻ Worked for 2m 24s · done 오전 1:59
+
+> 현재 디자인은 모바일에 최적화되어 있는 것 같아. 데스크톱 환경에서도 전체      
+  화면에서 UI를 볼 수 있도록 디자인을 수정해 줘. 수정한 디자인은                
+  'web_version'이라는 새로운 폴더를 생성한 뒤, 그곳에 저장해 줘.                
+
+● I'll build a desktop layout in a new web_version/ folder that fills the whole
+  screen: a top bar, a dashboard sidebar on the left, and the task list in the
+  main area. I'm keeping every element ID the same, so the existing script.js
+  works without logic changes. Checking the time first:
+
+  Ran 1 shell command (ctrl+o to expand)
+
+● Write(web_version\index.html)
+  ⎿  Wrote 112 lines to web_version\index.html
+       1 <!-- 작성일: 2026-11-25 02:00 -->
+       2 <!DOCTYPE html>
+       3 <html lang="ko">
+       4 <head>
+       5     <meta charset="UTF-8">
+       6     <meta name="viewport" content="width=device-width, initial-s
+         cale=1.0">
+       7     <title>My Tasks - 데스크톱</title>
+       8     <link rel="stylesheet" href="style.css">
+       9 </head>
+     … +103 lines (ctrl+o to expand)
+
+● Next the stylesheet. It uses CSS variables for light/dark colours and a grid
+  layout that fills the screen.
+
+● Write(web_version\style.css)
+  ⎿  Wrote 234 lines to web_version\style.css
+       1 /* 작성일: 2026-11-25 02:00 */
+       2 /*
+       3  * My Tasks - 데스크톱(전체 화면) 버전
+       4  * 레이아웃: 상단 바(제목·검색·데이터 관리) / 왼쪽 사이드바(대시
+         보드·필터·단축키) / 메인(입력·목록)
+       5  * 화면 높이 전체를 쓰고, 할 일 목록만 메인 영역 안에서 스크롤된
+         다.
+       6  * 1024px 미만에서는 한 줄로 쌓이는 태블릿·모바일 레이아웃으로
+         바뀐다.
+       7  */
+     … +227 lines (ctrl+o to expand)
+
+● Next I'll copy script.js (only its date comment changes), rerun the tests and
+  take screenshots at several screen sizes.
+
+● Bash({ echo '/* 작성일: 2026-11-25 02:00 */'; echo '/* 원본: ../script.js 와
+      동일한 로직 (데스크톱 레이아웃용 web_version) */'; tail -n +2 script.js; }
+      > web_version/script.js && diff <…)
+  ⎿  SAME_LOGIC
+     22
+     17
+     … +5 lines (ctrl+o to expand)
+  ⎿  Shell cwd was reset to C:\Users\isb25\VibeCoding\Study-02
+  ⎿  1 file changed (binary, mode only or too large to show)
+     web_version\script.js
+  ⎿  (timeout 4m)
+
+  Read 2 files (ctrl+o to expand)
+
+● The 1440px and 1920px layouts both fill the screen; at 1920px the list
+  switches to two columns. Checking dark mode, the mid width and mobile next.
+
+  Read 3 files (ctrl+o to expand)
+
+● Every size works except one problem at mobile width: the top-bar buttons wrap
+  onto two lines and the theme button floats off on its own. Fixing that:
+
+● Update(web_version\style.css)
+  ⎿  Added 2 lines, removed 1 line
+      215  @media (max-width: 600px) {
+      216      h1 { font-size: 1.6rem; }
+      217      .topbar-actions { margin-left: 0; width: 100%; justify-con
+           tent: space-between; }
+      218 -    .data-controls { flex-wrap: wrap; }                       
+      218 +    .data-controls { flex: 1; gap: 6px; }                     
+      219 +    .data-btn { flex: 1; padding: 8px 4px; font-size: 0.8rem; 
+          +}                                                             
+      220      .controls-container { flex-direction: column; }
+      221      .category-stats { gap: 6px; }
+      222      .input-container { flex-wrap: wrap; }
+
+  Read 1 file, ran 1 shell command (ctrl+o to expand)
+
+● Fixed: the three buttons and the theme toggle now sit on one row. Last step:
+  adding web_version to CLAUDE.md.
+
+● Bash(sed -i -e '1s/01:57 (수정됨)/02:00 (수정됨)/' -e 's/^-
+      `README_old.md`는/- `web_version\/`: 같은 앱의 데스크톱 전체 화면
+      버전(상단 바 + 왼쪽 사이드바 + 메인 목록 그리드, 1600px 이상에서 목록 2열,
+      1023px 이…)
+  ⎿  17:- `web_version/`: 같은 앱의 데스크톱 전체 화면 버전(상단 바 + 왼쪽
+     �
+      M index.html
+     … +4 lines (ctrl+o to expand)
+  ⎿  Updated CLAUDE.md +2 -1
+      1 -<!-- 작성일: 2026-11-25 01:57 (수정됨) -->                      
+      1 +<!-- 작성일: 2026-11-25 02:00 (수정됨) -->                      
+      2  # CLAUDE.md
+      3 
+      4  This file provides guidance to Claude Code (claude.ai/code) when
+          working with code in this repository.
+     ...
+      14  - `index.html`: 모든 UI 요소가 정적으로 선언되어 있고, `script.
+          js`가 `id`로 참조합니다.
+      15  - `script.js`: 전체 로직이 하나의 파일에 있으며 모듈/프레임워크
+           없이 전역 변수와 함수로 구성됩니다.
+      16  - `style.css`: 라이트 스타일 + 하단의 `body.dark-mode` 오버라이
+          드로 다크 모드를 구현합니다.
+      17 +- `web_version/`: 같은 앱의 데스크톱 전체 화면 버전(상단 바 +  
+         +왼쪽 사이드바 + 메인 목록 그리드, 1600px 이상에서 목록 2열, 102
+         +3px 이하에서는 한 줄로 쌓임). 요소 `id`·클래스를 루트 버전과 똑
+         +같이 맞춰 두었기 때문에 `web_version/script.js`는 루트 `script.
+         +js`와 로직이 같은 복사본입니다. **기능을 바꾸면 두 `script.js` 
+         +를 함께 고치고**, 레이아웃만 다른 `index.html`/`style.css`는 각
+         +각 수정합니다. 다크 모드는 `body.dark-mode`에서 CSS 변수를 바꾸
+         +는 방식입니다.                                                 
+      18  - `README_old.md`는 `README.md`와 거의 동일한 이전 버전입니다.
+      19 
+      20  ## 핵심 동작 방식 (`script.js`)
+
+● I made a desktop version that fills the whole screen and saved it in the new
+  Study-02/web_version/ folder. The original files at the top of the folder are
+  unchanged. In headless Chrome all existing tests (22 + 17) pass on the new
+  version too, and I checked screenshots in light and dark mode at 1920, 1440,
+  1100 and 400px widths.
+
+  Layout
+  - Top bar: title with the remaining-count badge, search and sort in the
+    middle, and export/import/clear-completed plus the dark-mode toggle on the
+    right.
+  - Left sidebar (340px): the progress dashboard with the three category bars
+    stacked vertically, then the quote of the day, category filters as a
+    vertical menu, and a shortcut guide.
+  - Main area: a wide input box with the auto-categorization hint, and the task
+    list.
+  - Full-screen fit:
+    - The layout uses exactly the screen height, and only the task list scrolls,
+      so the input box and sidebar always stay visible.
+    - From 1600px wide, the list shows tasks in two columns side by side.
+  - Smaller screens:
+    - 1024–1279px: the search bar moves to a second line in the top bar.
+    - 1023px and below: everything stacks in one column.
+    - 600px and below: mobile layout with touch-sized buttons.
+  - Dark mode: colours are now set with CSS variables, so dark mode switches the
+    whole layout consistently.
+
+  Files
+  - web_version/index.html and web_version/style.css are newly written.
+  - web_version/script.js is a copy of the root script.js with the same logic. I
+    kept every element ID the same so it works unchanged, which means any 
+    future feature change needs to be made in both script.js files. I added this
+    note to CLAUDE.md.
+
+  Nothing is committed yet.
+
+✻ Cooked for 2m 25s · done 오전 2:02
+
+> @script.js 파일에서 다크 모드 관련 함수를 찾고 설명해 줘.                     
+  ⎿  Read script.js (707 lines)
+
+● 다크 모드는 함수 두 개(applyTheme, toggleTheme)와 상태 변수 하나(isDarkMode)로
+  동작합니다. 실제 색상은 CSS의 body.dark-mode 규칙이 바꿉니다.
+
+  1. 상태 변수: isDarkMode (script.js:190)
+
+  let isDarkMode = loadJSON('isDarkMode', false) === true;
+  - localStorage의 isDarkMode 값을 읽어 다크 모드 여부를 정합니다.
+  - loadJSON은 값이 없거나 깨져 있으면 기본값 false를 돌려줍니다.
+  - === true 비교 때문에 true가 아닌 값(문자열 "yes" 등)이 저장돼 있어도 라이트
+    모드로 시작합니다.
+
+  2. applyTheme(): 화면에 반영 (script.js:223)
+
+  function applyTheme() {
+      document.body.classList.toggle('dark-mode', isDarkMode);
+      themeToggle.textContent = isDarkMode ? '☀️' : '🌙';
+      themeToggle.setAttribute('aria-pressed', String(isDarkMode));
+  }
+  현재 isDarkMode 값을 화면에 그대로 반영만 하고, 값을 바꾸거나 저장하지는
+  않습니다.
+  - classList.toggle('dark-mode', isDarkMode): 두 번째 인자를 주면 "뒤집기"가
+    아니라 강제로 설정합니다. true면 클래스를 붙이고 false면 뗍니다. 그래서 여러
+    번 호출해도 결과가 같습니다.
+  - 버튼 아이콘: 다크일 때 ☀️(라이트로 전환), 라이트일 때 🌙(다크로 전환)를 보여
+    줍니다.
+  - aria-pressed: 스크린 리더가 토글 버튼이 켜졌는지 꺼졌는지 읽을 수 있게
+    합니다.
+
+  3. toggleTheme(): 모드 전환 (script.js:229)
+
+  function toggleTheme() {
+      isDarkMode = !isDarkMode;
+      applyTheme();
+      localStorage.setItem('isDarkMode', JSON.stringify(isDarkMode));
+      announce(isDarkMode ? '다크 모드가 켜졌습니다.' : '라이트 모드가 
+  켜졌습니다.');
+  }
+  1. 상태를 반대로 뒤집고,
+  2. applyTheme()으로 화면에 반영한 뒤,
+  3. localStorage에 저장해 새로고침해도 유지되게 하고,
+  4. announce()로 스크린 리더에 바뀐 모드를 알려 줍니다.
+
+  할 일 목록 저장(saveTasks)은 300ms 디바운싱을 쓰지만, 테마는 자주 바뀌지 않아
+  바로 저장합니다.
+
+  4. 함수를 호출하는 곳
+
+  ┌───────────────┬──────────────────────────────────────┬───────────────────┐
+  │     위치      │                 코드                 │       역할        │
+  ├───────────────┼──────────────────────────────────────┼───────────────────┤
+  │ script.js:236 │ themeToggle.addEventListener('click' │ 우측 상단 🌙/☀️   │
+  │               │ , toggleTheme)                       │ 버튼 클릭         │
+  ├───────────────┼──────────────────────────────────────┼───────────────────┤
+  │               │                                      │ Alt+D 단축키      │
+  │ script.js:690 │ else if (key === 'd') {              │ (preventDefault로 │
+  │               │ e.preventDefault(); toggleTheme(); } │  브라우저 기본    │
+  │               │                                      │ 동작 차단)        │
+  ├───────────────┼──────────────────────────────────────┼───────────────────┤
+  │ script.js:704 │ applyTheme();                        │ 페이지를 열 때    │
+  │               │                                      │ 저장된 테마 복원  │
+  ├───────────────┼──────────────────────────────────────┼───────────────────┤
+  │               │                                      │ JSON 내보내기     │
+  │ script.js:588 │ settings: { ..., isDarkMode }        │ 파일에 테마 설정  │
+  │               │                                      │ 포함              │
+  └───────────────┴──────────────────────────────────────┴───────────────────┘
+
+  5. 실제 색상 변경은 CSS가 담당
+
+  JS는 <body>에 dark-mode 클래스를 붙였다 뗐다 할 뿐이고, 색은 CSS가 바꿉니다.
+  - 루트 버전 style.css: body.dark-mode .app-container { background-color: 
+    #2D2D2D; }처럼 요소마다 다크 색을 직접 덮어씁니다.
+  - web_version/style.css: body.dark-mode { --bg: #1A1A1A; --surface: #2D2D2D; 
+    ... }처럼 CSS 변수만 바꾸면 모든 요소가 따라 바뀝니다.
+
+  참고: 아쉬운 점
+
+  - 가져오기는 테마를 복원하지 않습니다. 내보내기 파일에는 isDarkMode가 들어
+    있지만, 가져오기는 data.tasks만 읽습니다.
+  - OS 다크 모드 설정을 따르지 않습니다. 처음 방문할 때 운영체제의 다크 모드
+    설정(prefers-color-scheme)을 확인하지 않아 항상 라이트 모드로 시작합니다.
+
+  원하시면 이 두 가지를 보완해 드릴게요.
+✻ Cogitated for 15s · done 오전 2:03
+
+> @web_version 폴더에 있는 파일들을 분석해서 할 일 관리 앱이 데스크톱 환경에    
+  최적화되었는지 확인해 줘.                                                     
+  ⎿  Listed directory web_version\
+
+● The code alone can't show how it behaves at real screen sizes, so I'll measure
+  a few common desktop resolutions (1366×768, 1920×1080, 2560×1440) in headless
+  Chrome.
+
+  Ran 1 shell command (ctrl+o to expand)
+
+● 결론부터 말하면, 1440~1920px 화면에는 데스크톱에 맞게 잘 최적화되어 있습니다.
+  다만 노트북(1366×768)과 초광폭(2560px 이상) 화면에서 문제가 있고,
+  마우스·키보드 사용성에도 빈틈이 몇 군데 있습니다.
+
+  아래 수치는 headless Chrome에서 창 크기를 바꿔 가며 측정한 값입니다. 창
+  테두리를 뺀 실제 표시 영역 기준입니다.
+
+  ┌───────────┬───────────┬────────────────────────┬─────────────┬──────────┐
+  │   화면    │  페이지   │        사이드바        │ 할 일 목록  │ 입력창   │
+  │           │  스크롤   │                        │             │   너비   │
+  ├───────────┼───────────┼────────────────────────┼─────────────┼──────────┤
+  │ 1366×768  │ 없음 ✅   │ 잘림 (내용 805px /     │ 1열, 항목   │ 737px    │
+  │           │           │ 보이는 영역 599px) ⚠️  │ 928px       │          │
+  ├───────────┼───────────┼────────────────────────┼─────────────┼──────────┤
+  │ 1920×1080 │ 없음 ✅   │ 딱 맞음 ✅             │ 2열, 항목   │ 1291px   │
+  │           │           │                        │ 735px       │          │
+  ├───────────┼───────────┼────────────────────────┼─────────────┼──────────┤
+  │ 2560×1440 │ 없음 ✅   │ 딱 맞음 ✅             │ 2열, 항목   │ 1931px   │
+  │           │           │                        │ 1055px ⚠️   │ ⚠️       │
+  └───────────┴───────────┴────────────────────────┴─────────────┴──────────┘
+
+  ✅ 데스크톱에 맞게 잘 된 점
+
+  - 화면 높이를 꽉 채움 (style.css의 .app-shell): 그리드 높이가 100vh라서 세
+    해상도 모두 페이지 전체가 스크롤되지 않습니다. 목록만 메인 영역 안에서
+    스크롤되므로 입력창, 검색창, 대시보드가 항상 보입니다.
+  - 3구역 레이아웃: 상단 바(검색·정렬·데이터 관리), 왼쪽
+    사이드바(진행률·필터·단축키), 메인(입력·목록)으로 나뉘어 있습니다. 모바일
+    버전처럼 세로로 길게 내려가지 않습니다.
+  - 넓은 화면 활용: 1600px 이상에서는 목록이 2열 카드로 바뀝니다(1920px에서 항목
+    8개가 스크롤 없이 모두 보임).
+  - 정렬: 제목 영역 너비를 사이드바 너비에 맞춰서, 검색창이 메인 영역 시작선에
+    맞춰집니다.
+  - 마우스용 피드백: 항목, 버튼, 필터에 호버 효과가 있고, 드래그 중에는 커서가
+    grab/grabbing으로 바뀝니다. 삭제 버튼은 호버 시 커지고, 시간에 마우스를
+    올리면 정확한 날짜(title)가 보입니다.
+  - 키보드 친화: 필터 메뉴 옆에 Alt+1~4가 적혀 있고, 사이드바에 단축키 안내가
+    있습니다. 포커스 표시(:focus-visible)도 있습니다.
+  - 실행 취소 토스트: 화면 아래 가운데가 아니라 오른쪽 아래에 떠서 목록을 가리지
+    않습니다.
+  - 반응형 대비: 1279px 이하에서는 상단 바가 2줄, 1023px 이하에서는 세로 배치,
+    600px 이하에서는 모바일 배치로 자연스럽게 바뀝니다.
+
+  ⚠️ 개선이 필요한 점
+
+  레이아웃
+  1. 흔한 노트북 해상도(1366×768)에서 사이드바가 잘립니다. 사이드바
+     내용(805px)이 보이는 영역(599px)보다 커서, 단축키 안내와 공부 필터 일부가
+     스크롤해야 보입니다. 화면 높이가 낮을 때 단축키 안내를 숨기거나 대시보드를
+     줄이는 처리가 없습니다.
+  2. 초광폭 화면에서 너무 늘어납니다. 2560px에서 입력창이 1931px, 항목 하나가
+     1055px로, 짧은 할 일 텍스트와 오른쪽 삭제 버튼 사이가 지나치게 멉니다.
+     .main에 최대 너비가 없고, 2열보다 많은 열로 늘어나지 않습니다.
+
+  마우스·키보드 사용성 (web_version/script.js가 루트 script.js와 같은 코드라서
+  데스크톱 전용 동작이 없음)
+  3. 편집 중 다른 곳을 클릭해도 편집이 끝나지 않습니다. enableEditMode()에 blur
+  처리가 없어서, 마우스로 다른 곳을 누르면 편집창이 열린 채 남아 있습니다.
+  4. 드래그할 때 놓을 위치가 표시되지 않습니다. 끄는 항목만 흐려지고(.dragging),
+  어디에 들어갈지 보여 주는 선이나 강조가 없습니다. 2열일 때는 순서가
+  왼쪽→오른쪽→다음 줄이라 위치를 짐작하기 더 어렵습니다.
+  5. 데스크톱에서 흔히 쓰는 단축키가 없습니다. 예를 들어 /나 Ctrl+F로 검색창
+  이동, 선택한 항목을 Delete로 삭제, 방향키로 항목 이동이 안 됩니다.
+
+  결론: 일반적인 데스크톱(1440~1920px)에서는 전체 화면을 잘 활용하는 데스크톱
+  버전입니다. 하지만 1366×768 노트북과 2560px 이상 화면, 그리고 편집 종료·드래그
+  표시 같은 마우스 사용성은 보완이 필요합니다.
+
+  원하시면 1~5번을 고쳐 드릴게요. 3~5번은 기능 변경이라 script.js 두 파일을 함께
+  수정해야 합니다.
+
+✻ Baked for 39s · done 오전 2:04
+
+> /export                                                                       
+  ⎿  Conversation copied to clipboard
