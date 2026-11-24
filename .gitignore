@@ -1,0 +1,10 @@
+.env
+*.env
+GUIDE.md
+__pycache__/
+*.pyc
+node_modules/
+backup/
+users.json
+saved_recipes.json
+.DS_Store
