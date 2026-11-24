@@ -1,0 +1,15 @@
+{
+  "name": "fridge-recipe-app",
+  "version": "1.0.0",
+  "private": true,
+  "description": "냉장고를 부탁해 - 냉장고 사진으로 재료를 인식하고 레시피를 추천하는 웹 앱 (OpenRouter)",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "demo": "node server.js --demo",
+    "test": "node --test \"test/*.test.js\""
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
