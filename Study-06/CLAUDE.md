@@ -1,11 +1,11 @@
-<!-- 작성일: 2026-11-25 18:45 (수정됨 2026-11-25 18:55: notion·context7·github MCP 추가) -->
+<!-- 작성일: 2026-11-25 18:45 (수정됨 2026-11-25 19:58: 쇼핑 리스트 앱 반영) -->
 # CLAUDE.md
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 # Study-06
 
-아직 실습 코드가 없는 자리 표시 폴더입니다(`.gitkeep`만 있음). 프로젝트를 시작하면 이 파일에 실행·테스트 명령과 구조를 채워 넣습니다. 저장소 공통 규칙(main 전용 Git 흐름, Study별 커밋 분리, 새 파일 첫 줄 날짜·시간 주석, 퀴즈 교차 검증 가이드라인)은 루트 `../CLAUDE.md`를 따릅니다.
+MCP 실습 폴더입니다. 결과물은 `shopping-list.html`(CSS/JS 인라인 단일 파일, localStorage 저장, 브라우저에서 직접 열어 실행)이고, Playwright MCP 테스트 결과는 `TEST_REPORT.md`와 `screenshots/`, Notion MCP 대신 저장한 문서는 `notion_docs/`에 있습니다. 저장소 공통 규칙(main 전용 Git 흐름, Study별 커밋 분리, 새 파일 첫 줄 날짜·시간 주석, 퀴즈 교차 검증 가이드라인)은 루트 `../CLAUDE.md`를 따릅니다.
 
 ## MCP 서버
 `.mcp.json`에 프로젝트 MCP 서버가 있습니다. 서버별 역할과 계정 연결 방법은 `MCP_SETUP.md`에 있습니다.
