@@ -1,4 +1,4 @@
-<!-- 작성일: 2026-11-25 19:35 -->
+<!-- 작성일: 2026-11-25 19:35 (수정됨 2026-11-25 20:10: 긴 이름에서 체크박스 줄어듦 수정) -->
 <!doctype html>
 <html lang="ko">
 <head>
@@ -27,7 +27,7 @@
   li { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-top: 1px solid var(--line); }
   li:first-child { border-top: 0; }
   li label { flex: 1; display: flex; align-items: center; gap: 10px; cursor: pointer; word-break: break-word; }
-  li input[type=checkbox] { width: 18px; height: 18px; accent-color: var(--accent); }
+  li input[type=checkbox] { width: 18px; height: 18px; flex-shrink: 0; accent-color: var(--accent); }
   li.done .name { text-decoration: line-through; color: var(--muted); }
   .del { border: 0; background: none; color: var(--muted); font-size: 1.1rem; padding: 4px 8px; }
   .del:hover { color: var(--danger); }
