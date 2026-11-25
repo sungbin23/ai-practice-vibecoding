@@ -1,4 +1,4 @@
-<!-- 작성일: 2026-11-25 02:00 (수정됨) -->
+<!-- 작성일: 2026-11-25 19:58 (수정됨) -->
 # CLAUDE.md
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
@@ -15,7 +15,6 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - `script.js`: 전체 로직이 하나의 파일에 있으며 모듈/프레임워크 없이 전역 변수와 함수로 구성됩니다.
 - `style.css`: 라이트 스타일 + 하단의 `body.dark-mode` 오버라이드로 다크 모드를 구현합니다.
 - `web_version/`: 같은 앱의 데스크톱 전체 화면 버전(상단 바 + 왼쪽 사이드바 + 메인 목록 그리드, 1600px 이상에서 목록 2열, 1023px 이하에서는 한 줄로 쌓임). 요소 `id`·클래스를 루트 버전과 똑같이 맞춰 두었기 때문에 `web_version/script.js`는 루트 `script.js`와 로직이 같은 복사본입니다. **기능을 바꾸면 두 `script.js`를 함께 고치고**, 레이아웃만 다른 `index.html`/`style.css`는 각각 수정합니다. 다크 모드는 `body.dark-mode`에서 CSS 변수를 바꾸는 방식입니다.
-- `README_old.md`는 `README.md`와 거의 동일한 이전 버전입니다.
 
 ## 핵심 동작 방식 (`script.js`)
 - **단일 상태 + 전체 재렌더링:** 전역 `tasks` 배열이 유일한 진실 공급원입니다. 모든 변경은 `tasks` 수정 → `saveTasks()` → `renderTasks()` 순서를 따르며, `renderTasks()`는 목록을 DocumentFragment로 다시 그린 뒤 `updateDashboard()`까지 호출합니다.
