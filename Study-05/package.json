@@ -1,0 +1,14 @@
+{
+  "name": "study-05-empathy-diary",
+  "version": "1.0.0",
+  "private": true,
+  "description": "AI 공감 다이어리 - 한 줄 일기를 AI가 분석하고 공감해 주는 앱",
+  "scripts": {
+    "start": "node server.js",
+    "demo": "node server.js --demo",
+    "pdf": "node pdf-server.js",
+    "pdf:demo": "node pdf-server.js --demo",
+    "test": "node --test \"test/*.test.js\""
+  },
+  "engines": { "node": ">=20" }
+}

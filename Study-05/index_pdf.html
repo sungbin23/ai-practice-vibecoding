@@ -1,0 +1,430 @@
+<!-- 작성일: 2026-11-25 18:05 (수정됨 2026-11-25 18:20) -->
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>PDF 요약</title>
+<style>
+:root{
+  --bg:#f4f6fb; --card:#ffffff; --line:#d6dcea; --ink:#1c2333; --sub:#4d5870;
+  --accent:#2f5bd8; --accent-d:#2447b0; --accent-bg:#e8eefc; --chip:#eef1f8;
+  --warn-bg:#fff4d6; --warn-line:#e8c660; --warn-ink:#6b4a00;
+  --danger:#a1281c; --danger-bg:#fdeae7; --danger-line:#f0b8b0;
+  --ok:#14673a; --shadow:0 4px 18px rgba(30,45,90,.10);
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --bg:#10141f; --card:#1a2030; --line:#333d58; --ink:#e8ecf6; --sub:#a9b4cf;
+    --accent:#7ea2ff; --accent-d:#a3bdff; --accent-bg:#1f2b4d; --chip:#252e47;
+    --warn-bg:#3a2f12; --warn-line:#8a6f1f; --warn-ink:#f3d98a;
+    --danger:#ff9d92; --danger-bg:#3d1c19; --danger-line:#7a3a33;
+    --ok:#6ed79a; --shadow:none;
+  }
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);line-height:1.6;
+  font-family:"Malgun Gothic","Apple SD Gothic Neo","Noto Sans KR","Segoe UI",system-ui,sans-serif}
+.wrap{max-width:720px;margin:0 auto;padding:20px 16px 64px}
+header{padding:8px 0 4px;text-align:center}
+h1{margin:0;font-size:1.6rem;letter-spacing:-.02em}
+.sub{margin:4px 0 0;color:var(--sub);font-size:.95rem}
+.banner{margin:14px 0 0;padding:12px 14px;background:var(--warn-bg);border:1px solid var(--warn-line);border-radius:12px;color:var(--warn-ink)}
+.banner strong{display:block}
+.banner p{margin:2px 0 0;font-size:.92rem}
+.banner.info{background:var(--danger-bg);border-color:var(--danger-line);color:var(--danger)}
+.banner button{margin-top:8px}
+[hidden]{display:none !important}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:18px}
+.drop{margin-top:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;text-align:center;
+  min-height:170px;padding:24px 16px;border:2px dashed var(--line);border-radius:16px;background:var(--card);cursor:pointer;
+  transition:background-color .15s,border-color .15s}
+.drop:hover{border-color:var(--accent)}
+.drop.drag{border-color:var(--accent);background:var(--accent-bg);border-style:solid}
+.drop[aria-disabled=true]{opacity:.55;cursor:not-allowed}
+.drop .icon{font-size:2rem;line-height:1}
+.drop .main{font-weight:700;font-size:1.05rem}
+.drop .hint{color:var(--sub);font-size:.9rem}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+button{font:inherit;cursor:pointer;min-height:44px;min-width:44px;padding:0 18px;border-radius:12px;border:1px solid var(--line);background:var(--chip);color:var(--ink);font-weight:600}
+button:hover:not(:disabled){border-color:var(--accent)}
+button:disabled{opacity:.55;cursor:not-allowed}
+button.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+@media (prefers-color-scheme:dark){button.primary{color:#0c1224}}
+button.primary:hover:not(:disabled){background:var(--accent-d);border-color:var(--accent-d)}
+.notice{margin:12px 0 0;padding:10px 14px;border-radius:12px;background:var(--accent-bg);color:var(--ink);font-size:.93rem}
+.progress{margin-top:16px}
+.progress .file{display:flex;flex-wrap:wrap;gap:4px 10px;align-items:baseline;font-weight:700;word-break:break-all}
+.progress .size{color:var(--sub);font-weight:400;font-size:.9rem}
+.progress .status{display:flex;align-items:center;gap:10px;margin-top:8px;color:var(--accent-d);font-weight:600}
+.spinner{flex:none;width:1.1em;height:1.1em;border:3px solid var(--accent);border-right-color:transparent;border-radius:50%;animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.error{margin-top:16px;padding:14px;background:var(--danger-bg);color:var(--danger);border:1px solid var(--danger-line);border-radius:12px}
+.error p{margin:0;font-weight:600;word-break:break-word}
+.actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.result{margin-top:16px}
+.result h2{margin:0 0 4px;font-size:1.35rem;line-height:1.35;word-break:break-word}
+.result h2:focus{outline:none}
+.result h2:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
+.badge{display:inline-block;margin-bottom:8px;padding:1px 10px;border-radius:999px;background:var(--warn-bg);color:var(--warn-ink);border:1px solid var(--warn-line);font-size:.8rem;font-weight:700}
+.oneline{margin:6px 0 0;padding:12px 14px;background:var(--accent-bg);border-radius:12px;font-weight:600;word-break:break-word}
+h3{margin:20px 0 6px;font-size:1rem;color:var(--sub)}
+ol.points{margin:0;padding-left:1.4em;display:grid;gap:6px}
+ol.points li{word-break:break-word}
+ul.chips{display:flex;flex-wrap:wrap;gap:6px;margin:0;padding:0;list-style:none}
+ul.chips li{background:var(--chip);border:1px solid var(--line);border-radius:999px;padding:2px 12px;font-size:.9rem;word-break:break-all}
+.meta{margin:18px 0 0;padding-top:12px;border-top:1px solid var(--line);color:var(--sub);font-size:.88rem;word-break:break-all}
+.trunc{margin:10px 0 0;padding:10px 14px;background:var(--warn-bg);border:1px solid var(--warn-line);color:var(--warn-ink);border-radius:12px;font-size:.92rem}
+.copied{align-self:center;color:var(--ok);font-weight:600;font-size:.92rem}
+.copied.fail{color:var(--danger)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.fallback-ta{position:fixed;left:-9999px;top:0;opacity:0}
+@media (max-width:480px){
+  .wrap{padding:14px 12px 48px}
+  h1{font-size:1.4rem}
+  .card{padding:14px}
+  .actions button{flex:1 1 100%}
+}
+@media (prefers-reduced-motion:reduce){
+  .spinner{animation:none;border-right-color:var(--accent);border-style:dotted}
+  .drop{transition:none}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>PDF 요약</h1>
+    <p class="sub">PDF를 올리면 제목, 한 줄 요약, 핵심 포인트, 키워드로 정리해 드려요.</p>
+  </header>
+
+  <div id="demoBanner" class="banner" role="status" hidden>
+    <strong>데모 모드: API 키 없음</strong>
+    <p>AI 대신 추출한 텍스트의 앞부분을 간단히 정리해서 보여 드려요.</p>
+  </div>
+  <div id="statusError" class="banner info" role="alert" hidden>
+    <strong id="statusErrorMsg"></strong>
+    <button type="button" id="statusRetry">상태 다시 확인</button>
+  </div>
+
+  <main>
+    <div id="drop" class="drop" role="button" tabindex="0" aria-describedby="dropHint dropNote" aria-label="PDF 파일 선택">
+      <div class="icon" aria-hidden="true">&#128196;</div>
+      <div class="main">PDF 파일을 끌어다 놓거나 클릭하세요</div>
+      <div id="dropHint" class="hint">최대 10MB, 텍스트가 들어 있는 PDF만 지원해요.</div>
+      <div id="dropNote" class="sr">Enter 또는 Space 키로 파일 선택창을 열 수 있어요.</div>
+    </div>
+    <input type="file" id="fileInput" accept=".pdf,application/pdf" hidden tabindex="-1">
+    <div id="notice" class="notice" role="status" aria-live="polite" hidden></div>
+
+    <section id="progress" class="card progress" aria-live="polite" aria-busy="false" hidden>
+      <div class="file"><span id="pName"></span><span id="pSize" class="size"></span></div>
+      <div class="status"><span class="spinner" aria-hidden="true"></span><span id="pText">텍스트 추출 중…</span></div>
+    </section>
+
+    <section id="error" class="error" role="alert" hidden>
+      <p id="errorMsg"></p>
+      <div class="actions">
+        <button type="button" id="retryBtn" class="primary" hidden>다시 시도</button>
+        <button type="button" id="otherBtn">다른 파일 선택</button>
+      </div>
+    </section>
+
+    <article id="result" class="card result" aria-labelledby="rTitle" hidden>
+      <span id="rDemo" class="badge" hidden>데모 요약</span>
+      <h2 id="rTitle" tabindex="-1"></h2>
+      <p id="rOne" class="oneline"></p>
+      <h3>핵심 포인트</h3>
+      <ol id="rPoints" class="points"></ol>
+      <div id="rKwWrap">
+        <h3>키워드</h3>
+        <ul id="rKw" class="chips"></ul>
+      </div>
+      <p id="rTrunc" class="trunc" hidden>문서가 길어 앞부분(약 12,000자)만 요약했어요.</p>
+      <p id="rMeta" class="meta"></p>
+      <div class="actions">
+        <button type="button" id="copyBtn" class="primary">요약 복사</button>
+        <button type="button" id="againBtn">다른 파일 요약</button>
+        <span id="copied" class="copied" role="status" aria-live="polite"></span>
+      </div>
+    </article>
+  </main>
+</div>
+
+<script>
+(function () {
+  'use strict';
+  var MAX_BYTES = 10 * 1024 * 1024;
+  var TIMEOUT_MS = 90000;
+  var $ = function (id) { return document.getElementById(id); };
+  var el = {
+    drop: $('drop'), input: $('fileInput'), notice: $('notice'), progress: $('progress'),
+    pName: $('pName'), pText: $('pText'), pSize: $('pSize'), error: $('error'), errorMsg: $('errorMsg'),
+    retry: $('retryBtn'), other: $('otherBtn'), result: $('result'), demoBanner: $('demoBanner'),
+    statusError: $('statusError'), statusErrorMsg: $('statusErrorMsg'), statusRetry: $('statusRetry'),
+    rDemo: $('rDemo'), rTitle: $('rTitle'), rOne: $('rOne'), rPoints: $('rPoints'), rKw: $('rKw'),
+    rKwWrap: $('rKwWrap'), rTrunc: $('rTrunc'), rMeta: $('rMeta'), copyBtn: $('copyBtn'),
+    again: $('againBtn'), copied: $('copied')
+  };
+  var busy = false;
+  var lastFile = null;
+  var lastText = '';
+  var dragDepth = 0;
+  var copyTimer = 0;
+  var phaseTimer = 0;
+  var PHASE_MS = 1500;
+
+  function show(node, on) { node.hidden = !on; }
+  function fmtNum(n) { return Number(n).toLocaleString('ko-KR'); }
+  function fmtSize(b) {
+    if (b < 1024) return b + 'B';
+    if (b < 1024 * 1024) return (b / 1024).toFixed(1) + 'KB';
+    return (b / 1024 / 1024).toFixed(1) + 'MB';
+  }
+  function str(v) { return typeof v === 'string' ? v : ''; }
+  function strList(v) {
+    return Array.isArray(v) ? v.filter(function (x) { return typeof x === 'string' && x.trim(); }) : [];
+  }
+
+  /* ---- 상태(데모 배너) ---- */
+  function loadStatus() {
+    show(el.statusError, false);
+    fetch('/api/status', { cache: 'no-store' }).then(function (r) {
+      if (!r.ok) throw new Error('status');
+      return r.json();
+    }).then(function (s) {
+      show(el.demoBanner, !!(s && s.demo));
+    }).catch(function () {
+      el.statusErrorMsg.textContent = '서버 상태를 확인하지 못했어요. 서버가 켜져 있는지 확인해 주세요.';
+      show(el.statusError, true);
+    });
+  }
+  el.statusRetry.addEventListener('click', loadStatus);
+
+  /* ---- 화면 상태 전환 ---- */
+  function setBusy(on) {
+    busy = on;
+    el.drop.setAttribute('aria-disabled', on ? 'true' : 'false');
+    el.drop.tabIndex = on ? -1 : 0;
+    el.progress.setAttribute('aria-busy', on ? 'true' : 'false');
+    el.retry.disabled = on;
+    el.other.disabled = on;
+  }
+  function stopPhase() { clearTimeout(phaseTimer); phaseTimer = 0; }
+  function clearNotice() { el.notice.textContent = ''; show(el.notice, false); }
+  function showNotice(msg) { el.notice.textContent = msg; show(el.notice, true); }
+  function showError(msg, canRetry) {
+    el.errorMsg.textContent = msg;
+    show(el.retry, !!canRetry && !!lastFile);
+    show(el.error, true);
+    show(el.progress, false);
+    el.other.focus();
+  }
+  function resetAll() {
+    lastFile = null; lastText = '';
+    show(el.error, false); show(el.result, false); show(el.progress, false);
+    clearNotice();
+    el.copied.textContent = '';
+  }
+
+  /* ---- 파일 선택/검증 ---- */
+  function pickFile() { if (!busy) el.input.click(); }
+  el.drop.addEventListener('click', pickFile);
+  el.drop.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar') { e.preventDefault(); pickFile(); }
+  });
+  el.input.addEventListener('change', function () {
+    var files = el.input.files;
+    handleFiles(files ? Array.prototype.slice.call(files) : []);
+    el.input.value = '';
+  });
+  el.other.addEventListener('click', function () { resetAll(); pickFile(); });
+  el.again.addEventListener('click', function () {
+    resetAll();
+    el.drop.focus();
+  });
+
+  function validate(file) {
+    var name = file.name || '';
+    var type = (file.type || '').toLowerCase();
+    var okExt = /\.pdf$/i.test(name);
+    var okType = ['', 'application/pdf', 'application/x-pdf', 'application/octet-stream'].indexOf(type) >= 0;
+    if (!((okExt && okType) || type === 'application/pdf' || type === 'application/x-pdf')) return 'PDF 파일만 올릴 수 있어요.';
+    if (file.size === 0) return '빈 파일이에요.';
+    if (file.size > MAX_BYTES) return '파일이 너무 커요. 10MB 이하 PDF만 올릴 수 있어요.';
+    return '';
+  }
+  function handleFiles(files) {
+    if (busy) return;
+    if (!files.length) return;
+    resetAll();
+    var file = files[0];
+    var bad = validate(file);
+    if (bad) { lastFile = null; showError(bad, false); return; }
+    if (files.length > 1) showNotice('첫 번째 파일만 요약해요.');
+    upload(file);
+  }
+
+  /* ---- 드래그&드롭 ---- */
+  ['dragover', 'drop'].forEach(function (t) {
+    window.addEventListener(t, function (e) { e.preventDefault(); });
+  });
+  window.addEventListener('dragenter', function (e) { e.preventDefault(); });
+  el.drop.addEventListener('dragenter', function (e) {
+    e.preventDefault(); dragDepth++;
+    if (!busy) el.drop.classList.add('drag');
+  });
+  el.drop.addEventListener('dragover', function (e) {
+    e.preventDefault();
+    if (e.dataTransfer) e.dataTransfer.dropEffect = busy ? 'none' : 'copy';
+  });
+  el.drop.addEventListener('dragleave', function () {
+    dragDepth = Math.max(0, dragDepth - 1);
+    if (dragDepth === 0) el.drop.classList.remove('drag');
+  });
+  el.drop.addEventListener('drop', function (e) {
+    e.preventDefault(); dragDepth = 0;
+    el.drop.classList.remove('drag');
+    var dt = e.dataTransfer;
+    if (busy || !dt) return;
+    handleFiles(dt.files ? Array.prototype.slice.call(dt.files) : []);
+  });
+
+  /* ---- 업로드 ---- */
+  function upload(file) {
+    if (busy) return;
+    lastFile = file;
+    setBusy(true);
+    show(el.error, false); show(el.result, false);
+    el.pName.textContent = file.name;
+    el.pSize.textContent = fmtSize(file.size);
+    el.pText.textContent = '텍스트 추출 중…';
+    stopPhase();
+    phaseTimer = setTimeout(function () { el.pText.textContent = '요약 중…'; }, PHASE_MS);
+    show(el.progress, true);
+
+    var ctrl = new AbortController();
+    var timedOut = false;
+    var timer = setTimeout(function () { timedOut = true; ctrl.abort(); }, TIMEOUT_MS);
+
+    fetch('/api/summarize', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/pdf', 'X-File-Name': encodeURIComponent(file.name) },
+      body: file,
+      signal: ctrl.signal
+    }).then(function (res) {
+      return res.text().then(function (txt) {
+        var data = null;
+        try { data = JSON.parse(txt); } catch (e) { data = null; }
+        return { res: res, data: data };
+      });
+    }).then(function (o) {
+      clearTimeout(timer); stopPhase();
+      setBusy(false);
+      if (!o.res.ok) {
+        var msg = o.data && typeof o.data.error === 'string' && o.data.error ? o.data.error : '서버 응답을 이해하지 못했어요. 잠시 뒤 다시 시도해 주세요.';
+        var s = o.res.status;
+        showError(msg, !(s === 413 || s === 415 || s === 422 || s === 400));
+        return;
+      }
+      if (!o.data || typeof o.data !== 'object' || !o.data.summary || typeof o.data.summary !== 'object') {
+        showError('서버 응답을 이해하지 못했어요. 잠시 뒤 다시 시도해 주세요.', true);
+        return;
+      }
+      renderResult(o.data);
+    }).catch(function () {
+      clearTimeout(timer); stopPhase();
+      setBusy(false);
+      showError(timedOut
+        ? '시간이 너무 오래 걸려요(90초 초과). 잠시 뒤 다시 시도해 주세요.'
+        : '서버에 연결하지 못했어요. 서버가 켜져 있는지 확인하고 다시 시도해 주세요.', true);
+    });
+  }
+  el.retry.addEventListener('click', function () {
+    if (busy || !lastFile) return;
+    show(el.error, false);
+    upload(lastFile);
+  });
+
+  /* ---- 결과 ---- */
+  function fill(list, items, tag) {
+    list.textContent = '';
+    items.forEach(function (t) {
+      var li = document.createElement(tag || 'li');
+      li.textContent = t;
+      list.appendChild(li);
+    });
+  }
+  function renderResult(d) {
+    var s = d.summary;
+    var title = str(s.title).trim() || str(d.fileName).trim() || '요약';
+    var one = str(s.oneLine).trim();
+    if (one === str(s.title).trim()) one = '';
+    var allPoints = strList(s.keyPoints).map(function (p) { return p.trim(); });
+    var points = allPoints.filter(function (p) { return p !== one && p !== str(s.oneLine).trim(); });
+    if (!points.length) points = allPoints;
+    var kws = strList(s.keywords);
+    var pages = Number(d.pages), chars = Number(d.chars);
+    var meta = [];
+    if (d.fileName) meta.push(str(d.fileName));
+    if (isFinite(pages) && pages > 0) meta.push(fmtNum(pages) + '쪽');
+    if (isFinite(chars) && chars >= 0 && d.chars != null) meta.push(fmtNum(chars) + '자');
+
+    el.rTitle.textContent = title;
+    el.rOne.textContent = one;
+    show(el.rOne, !!one);
+    fill(el.rPoints, points.length ? points : ['요약할 핵심 내용을 찾지 못했어요.']);
+    fill(el.rKw, kws);
+    show(el.rKwWrap, kws.length > 0);
+    show(el.rDemo, !!d.demo);
+    show(el.rTrunc, !!d.truncated);
+    el.rMeta.textContent = meta.join(' · ');
+    el.copied.textContent = ''; el.copied.classList.remove('fail');
+
+    var lines = [title, ''];
+    if (one) lines.push('한 줄 요약: ' + one, '');
+    lines.push('핵심 포인트');
+    points.forEach(function (p) { lines.push('- ' + p); });
+    if (kws.length) lines.push('', '키워드: ' + kws.join(', '));
+    lastText = lines.join('\n');
+
+    show(el.progress, false); show(el.error, false);
+    show(el.result, true);
+    el.rTitle.focus();
+  }
+
+  /* ---- 복사 ---- */
+  function feedback(ok) {
+    el.copied.classList.toggle('fail', !ok);
+    el.copied.textContent = ok ? '복사했어요' : '복사하지 못했어요';
+    clearTimeout(copyTimer);
+    copyTimer = setTimeout(function () { el.copied.textContent = ''; }, 2500);
+  }
+  function fallbackCopy(text) {
+    var ta = document.createElement('textarea');
+    ta.value = text; ta.className = 'fallback-ta'; ta.setAttribute('readonly', '');
+    document.body.appendChild(ta);
+    ta.select();
+    var ok = false;
+    try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+    document.body.removeChild(ta);
+    el.copyBtn.focus();
+    return ok;
+  }
+  el.copyBtn.addEventListener('click', function () {
+    if (!lastText) return;
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(lastText).then(function () { feedback(true); },
+        function () { feedback(fallbackCopy(lastText)); });
+    } else {
+      feedback(fallbackCopy(lastText));
+    }
+  });
+
+  loadStatus();
+})();
+</script>
+</body>
+</html>

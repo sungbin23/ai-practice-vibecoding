@@ -1,0 +1,6 @@
+# 작성일: 2026-11-25 18:10 (수정됨 2026-11-25 18:17)
+.env
+*.env
+!.env.example
+data/
+.claude/settings.local.json
